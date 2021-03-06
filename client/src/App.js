@@ -7,6 +7,7 @@ import Footer from "./Components/Footer/Footer";
 import { Howl } from "howler";
 import Navigation from "./Components/Navigation/Navigation";
 import Peer from "simple-peer";
+import Quiz from "./Pages/Quiz";
 import Rodal from "rodal";
 import camera from "./Icons/camera.svg";
 import camerastop from "./Icons/camera-stop.svg";
@@ -709,6 +710,9 @@ function App() {
               </div>
             </div>
           </div>
+        </Route>
+        <Route exact path="/quiz">
+          <Quiz />
         </Route>
       </Switch>
     </>

@@ -2,16 +2,22 @@ import "./index.css";
 
 import * as serviceWorker from "./serviceWorker";
 
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+
 import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import mainTheme from "./theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <CssBaseline />
+    <ThemeProvider theme={mainTheme}>
+      <Router>
+        <App />
+      </Router>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
