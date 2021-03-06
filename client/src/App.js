@@ -22,7 +22,7 @@ import share from "./Icons/share.svg";
 
 var identity = 0;
 var classes = []; // list of classes
-var text = "";
+// var text = "";
 
 const Watermark = React.lazy(() => import("./Components/Watermark/Watermark"));
 
