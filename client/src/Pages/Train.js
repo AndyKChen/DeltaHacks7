@@ -61,6 +61,7 @@ const Train = () => {
       document
         .getElementById(identity.toString())
         .addEventListener('click', () => addDatasetClass(identity));
+      // trainingCards.innerHTML = '';
       inputClassName.value = '';
       console.log(classes);
     };
@@ -137,6 +138,7 @@ const Train = () => {
   return (
     <>
       <div id="loading"></div>
+
       <div className={classesStyles.background}>
         <div className={classesStyles.videoContainer}>
           <div>
@@ -155,7 +157,8 @@ const Train = () => {
           </div>
         </div>
         <div className={classesStyles.chatContainer}>
-          <ListView />
+          <ListView classList={classes} />
+          <div id="training-cards"></div>
           <div className="column flex-2-container">
             <div>
               <div className="model">
@@ -174,8 +177,6 @@ const Train = () => {
                   <i className="fas  fa-plus fa-1x"></i>
                 </button>
               </div>
-
-              <div id="training-cards"></div>
             </div>
           </div>
         </div>
