@@ -8,7 +8,10 @@ const mlSchema = new Schema({
     },
     model: {
         type: Object
-    } 
+    }, 
+    classes: {
+        type: Array
+    }
 }, {
     timestamps: true
 })

@@ -10,6 +10,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 let Question = require('./models/question.model')
+let Model = require('./models/ml.model')
 
 require('dotenv').config();
 
@@ -43,6 +44,18 @@ app.post('/random-question', async(req, res) => {
         const newQuestion = new Question({ category, picture, translation });
         console.log(newQuestion);
         await newQuestion.save();
+        res.status(200).send();
+    } catch {
+        res.status(400).send(err);
+    }
+})
+
+app.post('/upload-model', async(req, res) => {
+    try {
+        const { username, model, classes } = req.body();
+        const newModel = new Model({ username, model, classes })
+        console.log(newModel);
+        await newModel.save();
         res.status(200).send();
     } catch {
         res.status(400).send(err);
