@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
-import Footer from "../Components/Footer/Footer";
-import { Howl } from "howler";
-import Navigation from "../Components/Navigation/Navigation";
-import Peer from "simple-peer";
-import Rodal from "rodal";
-import camera from "../Icons/camera.svg";
-import camerastop from "../Icons/camera-stop.svg";
-import fullscreen from "../Icons/fullscreen.svg";
-import hangup from "../Icons/hang-up.svg";
-import io from "socket.io-client";
-import microphone from "../Icons/microphone.svg";
-import microphonestop from "../Icons/microphone-stop.svg";
-import minimize from "../Icons/minimize.svg";
-import ringtone from "../Sounds/ringtone.mp3";
-import share from "../Icons/share.svg";
+import Footer from '../Components/Footer/Footer';
+import { Howl } from 'howler';
+import Navigation from '../Components/Navigation/Navigation';
+import Peer from 'simple-peer';
+import Rodal from 'rodal';
+import camera from '../Icons/camera.svg';
+import camerastop from '../Icons/camera-stop.svg';
+import fullscreen from '../Icons/fullscreen.svg';
+import hangup from '../Icons/hang-up.svg';
+import io from 'socket.io-client';
+import microphone from '../Icons/microphone.svg';
+import microphonestop from '../Icons/microphone-stop.svg';
+import minimize from '../Icons/minimize.svg';
+import ringtone from '../Sounds/ringtone.mp3';
+import share from '../Icons/share.svg';
 
 const ringtoneSound = new Howl({
   src: [ringtone],
@@ -23,18 +23,18 @@ const ringtoneSound = new Howl({
 });
 
 const Landing = () => {
-  const [yourID, setYourID] = useState("");
+  const [yourID, setYourID] = useState('');
   const [users, setUsers] = useState({});
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
-  const [caller, setCaller] = useState("");
+  const [caller, setCaller] = useState('');
   const [callingFriend, setCallingFriend] = useState(false);
   const [callerSignal, setCallerSignal] = useState();
   const [callAccepted, setCallAccepted] = useState(false);
   const [callRejected, setCallRejected] = useState(false);
-  const [receiverID, setReceiverID] = useState("");
+  const [receiverID, setReceiverID] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
   const [audioMuted, setAudioMuted] = useState(false);
   const [videoMuted, setVideoMuted] = useState(false);
   const [isfullscreen, setFullscreen] = useState(false);
@@ -46,16 +46,16 @@ const Landing = () => {
   const myPeer = useRef();
 
   useEffect(() => {
-    socket.current = io.connect("/");
+    socket.current = io.connect('/');
 
-    socket.current.on("yourID", (id) => {
+    socket.current.on('yourID', (id) => {
       setYourID(id);
     });
-    socket.current.on("allUsers", (users) => {
+    socket.current.on('allUsers', (users) => {
       setUsers(users);
     });
 
-    socket.current.on("hey", (data) => {
+    socket.current.on('hey', (data) => {
       setReceivingCall(true);
       ringtoneSound.play();
       setCaller(data.from);
@@ -81,27 +81,27 @@ const Landing = () => {
 
         myPeer.current = peer;
 
-        peer.on("signal", (data) => {
-          socket.current.emit("acceptCall", { signal: data, to: caller });
+        peer.on('signal', (data) => {
+          socket.current.emit('acceptCall', { signal: data, to: caller });
         });
 
-        peer.on("stream", (stream) => {
+        peer.on('stream', (stream) => {
           partnerVideo.current.srcObject = stream;
         });
 
-        peer.on("error", (err) => {
+        peer.on('error', (err) => {
           endCall();
         });
 
         peer.signal(callerSignal);
 
-        socket.current.on("close", () => {
+        socket.current.on('close', () => {
           window.location.reload();
         });
       })
       .catch(() => {
         setModalMessage(
-          "You cannot place/ receive a call without granting video and audio permissions! Please change your settings to use this app."
+          'You cannot place/ receive a call without granting video and audio permissions! Please change your settings to use this app.',
         );
         setModalVisible(true);
       });
@@ -110,35 +110,33 @@ const Landing = () => {
   function rejectCall() {
     ringtoneSound.unload();
     setCallRejected(true);
-    socket.current.emit("rejected", { to: caller });
+    socket.current.emit('rejected', { to: caller });
     window.location.reload();
   }
 
   function endCall() {
     myPeer.current.destroy();
-    socket.current.emit("close", { to: caller });
+    socket.current.emit('close', { to: caller });
     window.location.reload();
   }
 
   function shareScreen() {
-    navigator.mediaDevices
-      .getDisplayMedia({ cursor: true })
-      .then((screenStream) => {
+    navigator.mediaDevices.getDisplayMedia({ cursor: true }).then((screenStream) => {
+      myPeer.current.replaceTrack(
+        stream.getVideoTracks()[0],
+        screenStream.getVideoTracks()[0],
+        stream,
+      );
+      userVideo.current.srcObject = screenStream;
+      screenStream.getTracks()[0].onended = () => {
         myPeer.current.replaceTrack(
-          stream.getVideoTracks()[0],
           screenStream.getVideoTracks()[0],
-          stream
+          stream.getVideoTracks()[0],
+          stream,
         );
-        userVideo.current.srcObject = screenStream;
-        screenStream.getTracks()[0].onended = () => {
-          myPeer.current.replaceTrack(
-            screenStream.getVideoTracks()[0],
-            stream.getVideoTracks()[0],
-            stream
-          );
-          userVideo.current.srcObject = stream;
-        };
-      });
+        userVideo.current.srcObject = stream;
+      };
+    });
   }
 
   function toggleMuteAudio() {
@@ -156,13 +154,13 @@ const Landing = () => {
   }
 
   function renderLanding() {
-    if (!callRejected && !callAccepted && !callingFriend) return "block";
-    return "none";
+    if (!callRejected && !callAccepted && !callingFriend) return 'block';
+    return 'none';
   }
 
   function renderCall() {
-    if (!callRejected && !callAccepted && !callingFriend) return "none";
-    return "block";
+    if (!callRejected && !callAccepted && !callingFriend) return 'none';
+    return 'block';
   }
 
   // function isMobileDevice() {
@@ -181,25 +179,14 @@ const Landing = () => {
 
   let UserVideo;
   if (stream) {
-    UserVideo = (
-      <video className="userVideo" playsInline muted ref={userVideo} autoPlay />
-    );
+    UserVideo = <video className="userVideo" playsInline muted ref={userVideo} autoPlay />;
   }
 
   let PartnerVideo;
   if (callAccepted && isfullscreen) {
-    PartnerVideo = (
-      <video
-        className="partnerVideo cover"
-        playsInline
-        ref={partnerVideo}
-        autoPlay
-      />
-    );
+    PartnerVideo = <video className="partnerVideo cover" playsInline ref={partnerVideo} autoPlay />;
   } else if (callAccepted && !isfullscreen) {
-    PartnerVideo = (
-      <video className="partnerVideo" playsInline ref={partnerVideo} autoPlay />
-    );
+    PartnerVideo = <video className="partnerVideo" playsInline ref={partnerVideo} autoPlay />;
   }
 
   let audioControl;
@@ -281,18 +268,10 @@ const Landing = () => {
             <span className="callerID">{caller}</span> is calling you!
           </div>
           <div className="incomingCallButtons flex">
-            <button
-              name="accept"
-              className="alertButtonPrimary"
-              onClick={() => acceptCall()}
-            >
+            <button name="accept" className="alertButtonPrimary" onClick={() => acceptCall()}>
               Accept
             </button>
-            <button
-              name="reject"
-              className="alertButtonSecondary"
-              onClick={() => rejectCall()}
-            >
+            <button name="reject" className="alertButtonSecondary" onClick={() => rejectCall()}>
               Reject
             </button>
           </div>
@@ -302,7 +281,7 @@ const Landing = () => {
   }
 
   function callPeer(id) {
-    if (id !== "" && users[id] && id !== yourID) {
+    if (id !== '' && users[id] && id !== yourID) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -327,39 +306,39 @@ const Landing = () => {
                 //     username: "sultan1640@gmail.com",
                 //     credential: "98376683"
                 // }
-                { url: "stun:stun01.sipphone.com" },
-                { url: "stun:stun.ekiga.net" },
-                { url: "stun:stun.fwdnet.net" },
-                { url: "stun:stun.ideasip.com" },
-                { url: "stun:stun.iptel.org" },
-                { url: "stun:stun.rixtelecom.se" },
-                { url: "stun:stun.schlund.de" },
-                { url: "stun:stun.l.google.com:19302" },
-                { url: "stun:stun1.l.google.com:19302" },
-                { url: "stun:stun2.l.google.com:19302" },
-                { url: "stun:stun3.l.google.com:19302" },
-                { url: "stun:stun4.l.google.com:19302" },
-                { url: "stun:stunserver.org" },
-                { url: "stun:stun.softjoys.com" },
-                { url: "stun:stun.voiparound.com" },
-                { url: "stun:stun.voipbuster.com" },
-                { url: "stun:stun.voipstunt.com" },
-                { url: "stun:stun.voxgratia.org" },
-                { url: "stun:stun.xten.com" },
+                { url: 'stun:stun01.sipphone.com' },
+                { url: 'stun:stun.ekiga.net' },
+                { url: 'stun:stun.fwdnet.net' },
+                { url: 'stun:stun.ideasip.com' },
+                { url: 'stun:stun.iptel.org' },
+                { url: 'stun:stun.rixtelecom.se' },
+                { url: 'stun:stun.schlund.de' },
+                { url: 'stun:stun.l.google.com:19302' },
+                { url: 'stun:stun1.l.google.com:19302' },
+                { url: 'stun:stun2.l.google.com:19302' },
+                { url: 'stun:stun3.l.google.com:19302' },
+                { url: 'stun:stun4.l.google.com:19302' },
+                { url: 'stun:stunserver.org' },
+                { url: 'stun:stun.softjoys.com' },
+                { url: 'stun:stun.voiparound.com' },
+                { url: 'stun:stun.voipbuster.com' },
+                { url: 'stun:stun.voipstunt.com' },
+                { url: 'stun:stun.voxgratia.org' },
+                { url: 'stun:stun.xten.com' },
                 {
-                  url: "turn:numb.viagenie.ca",
-                  credential: "muazkh",
-                  username: "webrtc@live.com",
+                  url: 'turn:numb.viagenie.ca',
+                  credential: 'muazkh',
+                  username: 'webrtc@live.com',
                 },
                 {
-                  url: "turn:192.158.29.39:3478?transport=udp",
-                  credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
-                  username: "28224511:1379330808",
+                  url: 'turn:192.158.29.39:3478?transport=udp',
+                  credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+                  username: '28224511:1379330808',
                 },
                 {
-                  url: "turn:192.158.29.39:3478?transport=tcp",
-                  credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
-                  username: "28224511:1379330808",
+                  url: 'turn:192.158.29.39:3478?transport=tcp',
+                  credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+                  username: '28224511:1379330808',
                 },
               ],
             },
@@ -368,47 +347,45 @@ const Landing = () => {
 
           myPeer.current = peer;
 
-          peer.on("signal", (data) => {
-            socket.current.emit("callUser", {
+          peer.on('signal', (data) => {
+            socket.current.emit('callUser', {
               userToCall: id,
               signalData: data,
               from: yourID,
             });
           });
 
-          peer.on("stream", (stream) => {
+          peer.on('stream', (stream) => {
             if (partnerVideo.current) {
               partnerVideo.current.srcObject = stream;
             }
           });
 
-          peer.on("error", (err) => {
+          peer.on('error', (err) => {
             endCall();
           });
 
-          socket.current.on("callAccepted", (signal) => {
+          socket.current.on('callAccepted', (signal) => {
             setCallAccepted(true);
             peer.signal(signal);
           });
 
-          socket.current.on("close", () => {
+          socket.current.on('close', () => {
             window.location.reload();
           });
 
-          socket.current.on("rejected", () => {
+          socket.current.on('rejected', () => {
             window.location.reload();
           });
         })
         .catch(() => {
           setModalMessage(
-            "You cannot place/ receive a call without granting video and audio permissions! Please change your settings to use this app."
+            'You cannot place/ receive a call without granting video and audio permissions! Please change your settings to use this app.',
           );
           setModalVisible(true);
         });
     } else {
-      setModalMessage(
-        "We think the username entered is wrong. Please check again and retry!"
-      );
+      setModalMessage('We think the username entered is wrong. Please check again and retry!');
       setModalVisible(true);
       return;
     }
@@ -427,13 +404,9 @@ const Landing = () => {
               </div>
               <div>
                 <div className="actionText">
-                  Who do you want to call,{" "}
+                  Who do you want to call,{' '}
                   <span
-                    className={
-                      copied
-                        ? "username highlight copied"
-                        : "username highlight"
-                    }
+                    className={copied ? 'username highlight copied' : 'username highlight'}
                     onClick={() => {
                       showCopiedMessage();
                     }}
@@ -459,12 +432,9 @@ const Landing = () => {
                 </button>
               </div>
               <div>
-                To call your friend, ask them to open this app in their browser.{" "}
-                <br />
-                Send your username (<span className="username">{yourID}</span>)
-                and wait for their call{" "}
-                <span style={{ fontWeight: 600 }}>OR</span> enter their username
-                and hit call!
+                To call your friend, ask them to open this app in their browser. <br />
+                Send your username (<span className="username">{yourID}</span>) and wait for their
+                call <span style={{ fontWeight: 600 }}>OR</span> enter their username and hit call!
               </div>
             </div>
           </div>
@@ -482,7 +452,7 @@ const Landing = () => {
           onClose={() => setModalVisible(false)}
           width={20}
           height={5}
-          measure={"em"}
+          measure={'em'}
           closeOnEsc={true}
         >
           <div>{modalMessage}</div>

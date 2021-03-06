@@ -1,40 +1,40 @@
-import React from "react";
+import React from 'react';
 
 const Train = () => {
   let identity = 0;
   let classes = []; // list of classes
 
   const start = async () => {
-    const trainingCards = document.getElementById("training-cards");
-    const predictions = document.getElementById("predictions");
-    const confidence = document.getElementById("confidence");
+    const trainingCards = document.getElementById('training-cards');
+    const predictions = document.getElementById('predictions');
+    const confidence = document.getElementById('confidence');
 
     const createKNNClassifier = async () => {
-      console.log("Loading KNN Classifier");
+      console.log('Loading KNN Classifier');
       return await window.knnClassifier.create();
     };
     const createMobileNetModel = async () => {
-      console.log("Loading Mobilenet Model");
+      console.log('Loading Mobilenet Model');
       return await window.mobilenet.load();
     };
     const createWebcamInput = async () => {
-      console.log("Loading Webcam Input");
-      const webcamElement = await document.getElementById("webcam");
+      console.log('Loading Webcam Input');
+      const webcamElement = await document.getElementById('webcam');
       return await window.tf.data.webcam(webcamElement);
     };
 
     const mobilenetModel = await createMobileNetModel();
     const knnClassifierModel = await createKNNClassifier();
     const webcamInput = await createWebcamInput();
-    var preloader = document.getElementById("loading");
+    var preloader = document.getElementById('loading');
 
     function preLoader() {
-      preloader.style.display = "none";
+      preloader.style.display = 'none';
     }
     preLoader();
 
     const addClass = () => {
-      const inputClassName = document.getElementById("inputClassName");
+      const inputClassName = document.getElementById('inputClassName');
 
       let Classname = inputClassName.value;
       const found = classes.some((el) => el.name === Classname);
@@ -54,16 +54,16 @@ const Train = () => {
 
       document
         .getElementById(identity.toString())
-        .addEventListener("click", () => addDatasetClass(identity));
-      inputClassName.value = "";
+        .addEventListener('click', () => addDatasetClass(identity));
+      inputClassName.value = '';
       console.log(classes);
     };
 
     const initializeElements = () => {
-      const inputClassName = document.getElementById("inputClassName").value;
+      const inputClassName = document.getElementById('inputClassName').value;
       document
-        .getElementById("add-button")
-        .addEventListener("click", () => addClass(inputClassName));
+        .getElementById('add-button')
+        .addEventListener('click', () => addClass(inputClassName));
       // document.getElementById('btnSpeak').addEventListener('click', () => speak());
       // document.getElementById('load_button').addEventListener('change', (event) => uploadModel(knnClassifierModel, event));
       // document.getElementById('save_button').addEventListener('click', async () => downloadModel(knnClassifierModel));
@@ -75,7 +75,7 @@ const Train = () => {
 
       // Get the intermediate activation of MobileNet 'conv_preds' and pass that
       // to the KNN classifier.
-      const activation = mobilenetModel.infer(img, "conv_preds");
+      const activation = mobilenetModel.infer(img, 'conv_preds');
 
       // Pass the intermediate activation to the classifier.
       knnClassifierModel.addExample(activation, classId);
@@ -85,7 +85,7 @@ const Train = () => {
       currentCount += 1;
       classes[classIndex].count = currentCount;
 
-      var temp_id = "images-" + classId.toString();
+      var temp_id = 'images-' + classId.toString();
       document.getElementById(temp_id).innerHTML = currentCount;
 
       // Dispose the tensor to release the memory.
@@ -93,28 +93,24 @@ const Train = () => {
     };
 
     const imageClassificationWithTransferLearningOnWebcam = async () => {
-      console.log("Machine Learning on the web is ready");
+      console.log('Machine Learning on the web is ready');
       while (true) {
         if (knnClassifierModel.getNumClasses() > 0) {
           const img = await webcamInput.capture();
 
           // Get the activation from mobilenet from the webcam.
-          const activation = mobilenetModel.infer(img, "conv_preds");
+          const activation = mobilenetModel.infer(img, 'conv_preds');
           // Get the most likely class and confidences from the classifier module.
           const result = await knnClassifierModel.predictClass(activation);
 
           //console.log(classes[result.label - 1].name)
           try {
             predictions.innerHTML = classes[result.label - 1].name;
-            confidence.innerHTML = Math.floor(
-              result.confidences[result.label] * 100
-            );
-            document.getElementById("change-prediction").click();
+            confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
+            document.getElementById('change-prediction').click();
           } catch (err) {
             predictions.innerHTML = result.label - 1;
-            confidence.innerHTML = Math.floor(
-              result.confidences[result.label] * 100
-            );
+            confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
           }
 
           // Dispose the tensor to release the memory.
@@ -158,12 +154,7 @@ const Train = () => {
                 Download Model
                 <i className="fas fa-download"></i>
               </button>
-              <input
-                id="load_button"
-                className="fileinputs"
-                type="file"
-                accept=".json"
-              ></input>
+              <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
               <label htmlFor="upload-photo">Browse...</label>
             </div>
             <div className="add-class text-center">
