@@ -7,7 +7,7 @@ const VideoFrame = () => {
   return (
     <div className={classes.videoFrame}>
       <video autoPlay playsInline muted id="webcam" className={classes.video}></video>
-      <div class={classes.nameContainer}>
+      <div className={classes.nameContainer}>
         <Fab
           disableRipple
           disableFocusRipple
@@ -16,9 +16,10 @@ const VideoFrame = () => {
           className={classes.fab}
         >
           <div>
-            <div class={classes.name}>James Cahyadi</div>
-            <div class={classes.prediction}>
-              Prediction (<span id="confidence"></span>%:) <span id="predictions"></span>
+            <div className={classes.name}>James Cahyadi</div>
+            <div className={classes.prediction}>
+              Prediction (<span id="confidence"></span>%): <span id="predictions"></span>
+              <button hidden id="change-prediction"></button>
             </div>
           </div>
         </Fab>

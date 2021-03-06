@@ -1,8 +1,14 @@
+import Button from '@material-ui/core/Button';
+import GetAppIcon from '@material-ui/icons/GetAppOutlined';
+import ListView from '../Components/ListView';
 import React from 'react';
+import VideoFrame from '../Components/VideoFrame';
+import useStyles from './Train-jss';
 
 const Train = () => {
   let identity = 0;
   let classes = []; // list of classes
+  const classesStyles = useStyles();
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
@@ -129,52 +135,52 @@ const Train = () => {
   };
 
   return (
-    <div>
-      <div id="video-grid"></div>
+    <>
       <div id="loading"></div>
-      <div className="row">
-        <div className="mycam">
-          <video autoPlay playsInline muted id="webcam" className="cam"></video>
-          <div className="grey-bg">
-            <div className="row text-center">
-              <h3>
-                Prediction: <span id="predictions"></span>
-              </h3>
-              <h3>
-                Probability : <span id="confidence"></span> %
-              </h3>
-              <button hidden id="change-prediction"></button>
-            </div>
+      <div className={classesStyles.background}>
+        <div className={classesStyles.videoContainer}>
+          <div>
+            <Button
+              id="save_button"
+              color="primary"
+              variant="outlined"
+              className={classesStyles.downloadBtn}
+              startIcon={<GetAppIcon />}
+            >
+              Download Model
+            </Button>
+          </div>
+          <div>
+            <VideoFrame />
           </div>
         </div>
-        <div className="column flex-2-container">
-          <div>
-            <div className="model">
-              <button className="dark btn-lg btn-shadow " id="save_button">
-                Download Model
-                <i className="fas fa-download"></i>
-              </button>
-              <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
-              <label htmlFor="upload-photo">Browse...</label>
-            </div>
-            <div className="add-class text-center">
-              <input
-                id="inputClassName"
-                type="text"
-                placeholder="Enter Class Name Here"
-                name="option"
-              />
-              <button className="dark btn-lg btn-shadow mr-5" id="add-button">
-                Add
-                <i className="fas  fa-plus fa-1x"></i>
-              </button>
-            </div>
+        <div className={classesStyles.chatContainer}>
+          <ListView />
+          <div className="column flex-2-container">
+            <div>
+              <div className="model">
+                <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
+                <label htmlFor="upload-photo">Browse...</label>
+              </div>
+              <div className="add-class text-center">
+                <input
+                  id="inputClassName"
+                  type="text"
+                  placeholder="Enter Class Name Here"
+                  name="option"
+                />
+                <button className="dark btn-lg btn-shadow mr-5" id="add-button">
+                  Add
+                  <i className="fas  fa-plus fa-1x"></i>
+                </button>
+              </div>
 
-            <div id="training-cards"></div>
+              <div id="training-cards"></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

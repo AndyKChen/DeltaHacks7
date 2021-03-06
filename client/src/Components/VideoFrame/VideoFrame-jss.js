@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   videoFrame: {
     position: 'relative',
-    width: '400px',
-    height: '300px',
+    width: '500px',
+    height: '400px',
   },
   video: {
     position: 'relative',
