@@ -79,7 +79,9 @@ const Train = () => {
         .addEventListener('click', () => addClass(inputClassName));
       // document.getElementById('btnSpeak').addEventListener('click', () => speak());
       // document.getElementById('load_button').addEventListener('change', (event) => uploadModel(knnClassifierModel, event));
-      document.getElementById('save_button').addEventListener('click', async () => downloadModel(knnClassifierModel));
+      document
+        .getElementById('save_button')
+        .addEventListener('click', async () => downloadModel(knnClassifierModel));
     };
 
     const addDatasetClass = async (classId) => {
@@ -146,26 +148,26 @@ const Train = () => {
     let datasets = classifierModel.getClassifierDataset();
     let datasetObject = {};
     Object.keys(datasets).forEach((key) => {
-         let data = datasets[key].dataSync();
-         datasetObject[key] = Array.from(data);
+      let data = datasets[key].dataSync();
+      datasetObject[key] = Array.from(data);
     });
     let jsonModel = JSON.stringify(datasetObject);
-    console.log(jsonModel)
+    console.log(jsonModel);
     let downloader = document.createElement('a');
-    downloader.download = "model.json";
+    downloader.download = 'model.json';
     downloader.href = 'data:text/text;charset=utf-8,' + encodeURIComponent(jsonModel);
     document.body.appendChild(downloader);
     downloader.click();
     downloader.remove();
-};
+  };
 
   window.onload = async () => {
     await start();
   };
 
   const downloadModel = async (classifierModel) => {
-    saveClassifier(classifierModel);
-  }
+    await saveClassifier(classifierModel);
+  };
 
   return (
     <>
@@ -180,7 +182,6 @@ const Train = () => {
               variant="outlined"
               className={classesStyles.downloadBtn}
               startIcon={<GetAppIcon />}
-              onClick={() => downloadModel()}
             >
               Download Model
             </Button>
