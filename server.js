@@ -110,6 +110,10 @@ io.on("connection", (socket) => {
   socket.on("rejected", (data) => {
     io.to(users[data.to]).emit("rejected");
   });
+
+  socket.on('send-prediction', (data) => {
+    io.to(users[data.userToCall]).emit('prediction-recieved', data)
+  })
 });
 
 const port = process.env.PORT || 8000;
