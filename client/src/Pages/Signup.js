@@ -36,11 +36,12 @@ async function handleSubmit(e) {
 }
 
 return (
-    <Card variant="outlined" raised="true">
-        <Container component="main" maxWidth="xs">
+  <div className={classes.rootRoot}>
+    <Card variant="outlined" raised="true" className={classes.root}>
+        <Container component="main" maxWidth="xs" className={classes.container}>
           <CssBaseline />
           <div className={classes.paper}>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" color="primary" className={classes.title}>
               Sign Up
             </Typography>
             {error && <Alert severity="error">{error}</Alert>}
@@ -50,6 +51,7 @@ return (
                 margin="normal"
                 required
                 fullWidth
+                primary
                 id="email"
                 label="Email Address"
                 name="email"
@@ -80,6 +82,7 @@ return (
                 label="Re-enter Password"
                 type="password"
                 id="password-reenter"
+                color="primary"
                 className={classes.textField}
               />
               <Button
@@ -94,14 +97,15 @@ return (
               </Button>
               <Grid container className={classes.links}>
                 <Grid item xs={12}>
-                  <Link to="/login" >
-                    Already have an account?
-                  </Link>
+                  <Button href="/login" color="primary">
+                    Already have an account? Login
+                  </Button>
                 </Grid>
               </Grid>
             </form>
           </div>
         </Container>
     </Card>
+  </div>
 )
 }

@@ -34,11 +34,12 @@ export default function Login() {
     }
 
     return (
-        <Card variant="outlined" raised="true">
+      <div className={classes.rootRoot}>
+        <Card variant="outlined" raised="true" className={classes.root}>
             <Container component="main" maxWidth="xs">
               <CssBaseline />
               <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" color="primary" className={classes.title}>
                   Log in
                 </Typography>
                 {error && <Alert severity="error">{error}</Alert>}
@@ -81,14 +82,15 @@ export default function Login() {
                   </Button>
                   <Grid container className={classes.links}>
                     <Grid item xs={12}>
-                      <Link to="/signup">
-                        {"This is the link to sign up"}
-                      </Link>
+                      <Button href="/signup" color="primary">
+                        {"Haven't got an Account? Sign up"}
+                      </Button>
                     </Grid>
                   </Grid>
                 </form>
               </div>
             </Container>
         </Card>
+      </div>
     )
 }
