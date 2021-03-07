@@ -16,7 +16,7 @@ const ListView = ({ classList }) => {
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
   const classes = useStyles();
-
+  console.log('listview', classList);
   return (
     <div className={classes.root}>
       <Grid item xs={12} md={6}>
@@ -25,7 +25,7 @@ const ListView = ({ classList }) => {
         </Typography>
         <div>
           <List dense={true}>
-            {classList.map((cls) => {
+            {/* {classList.map((cls) => {
               console.log(cls);
               return (
                 <ListItem>
@@ -40,7 +40,7 @@ const ListView = ({ classList }) => {
                   </ListItemSecondaryAction>
                 </ListItem>
               );
-            })}
+            })} */}
           </List>
         </div>
       </Grid>

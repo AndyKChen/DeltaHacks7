@@ -1,7 +1,8 @@
 import Button from '@material-ui/core/Button';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import GetAppIcon from '@material-ui/icons/GetAppOutlined';
-import ListView from '../Components/ListView';
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 import VideoFrame from '../Components/VideoFrame';
 import useStyles from './Train-jss';
 
@@ -50,18 +51,17 @@ const Train = () => {
       }
 
       trainingCards.innerHTML +=
-        '<div class="newshifter"><div class="text-center"><h3>Class Name : <span>' +
+        `<div class=${classesStyles.classCard}><div class=${classesStyles.cardText}><div class=${classesStyles.classNameLabel}> Name : <span>` +
         Classname +
-        '</span></h3><h3>Images : <span id = "images-' +
+        `</span></div><div class=${classesStyles.imageNameLabel}>Images : <span id = "images-` +
         identity +
-        '" >0</span></h3></div ><div><button class="dark btn-spread btn-shadow mr-5" id="' +
+        `" >0</span></div></div ><div><button class=${classesStyles.addImage} id="` +
         identity +
-        '">Add New Images <i class="fas fa-plus fa-1x"></i></button></div></div>';
+        '">Add Image <i class="fas fa-plus fa-1x"></i></button></div></div>';
 
       document
         .getElementById(identity.toString())
         .addEventListener('click', () => addDatasetClass(identity));
-      // trainingCards.innerHTML = '';
       inputClassName.value = '';
       console.log(classes);
     };
@@ -141,7 +141,7 @@ const Train = () => {
 
       <div className={classesStyles.background}>
         <div className={classesStyles.videoContainer}>
-          <div>
+          <div className={classesStyles.downloadButtonSet}>
             <Button
               id="save_button"
               color="primary"
@@ -151,34 +151,50 @@ const Train = () => {
             >
               Download Model
             </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classesStyles.downloadBtn}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
+            </Button>
+            <input
+              id="load_button"
+              className="fileinputs"
+              type="file"
+              accept=".json"
+              style={{ display: 'none' }}
+            ></input>
           </div>
           <div>
             <VideoFrame />
           </div>
         </div>
         <div className={classesStyles.chatContainer}>
-          <ListView classList={classes} />
-          <div id="training-cards"></div>
           <div className="column flex-2-container">
             <div>
-              <div className="model">
-                <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
-                <label htmlFor="upload-photo">Browse...</label>
-              </div>
-              <div className="add-class text-center">
+              <div className={classesStyles.addClass}>
                 <input
                   id="inputClassName"
                   type="text"
                   placeholder="Enter Class Name Here"
                   name="option"
+                  className={classesStyles.inputField}
+                  autoComplete="off"
                 />
-                <button className="dark btn-lg btn-shadow mr-5" id="add-button">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classesStyles.addButton}
+                  id="add-button"
+                >
                   Add
-                  <i className="fas  fa-plus fa-1x"></i>
-                </button>
+                </Button>
               </div>
             </div>
           </div>
+          <div id="training-cards" className={classesStyles.trainingCards}></div>
         </div>
       </div>
     </>
