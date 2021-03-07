@@ -9,6 +9,8 @@ const VideoFrame = ({ video, id, prediction, name }) => {
   if (video) {
     videoElem = video;
   }
+  const idx = name.indexOf('@');
+  name = name.slice(0, idx);
   return (
     <div className={classes.videoFrame}>
       {videoElem}
