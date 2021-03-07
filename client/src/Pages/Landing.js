@@ -461,7 +461,9 @@ const Landing = () => {
               
               {error && <Alert severity="error">{error}</Alert>}
               <div className={classes.logoutButton}>
-                <Button onClick = {handleLogout}>Log Out</Button>
+                {currentUser ? (<Button onClick = {handleLogout}>Log Out</Button>)
+                : <div><Button href="/signup">SignUP</Button><Button href="/login">Login</Button></div>
+                }
               </div>
               <strong>Email:</strong>  {currentUser && currentUser.email}
             </div>
