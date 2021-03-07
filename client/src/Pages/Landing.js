@@ -532,9 +532,8 @@ const Landing = () => {
                 </button>
               </div>
               <div>
-                Give a friend your username (<span className="username">{yourID}</span>) and wait
-                for their call <span style={{ fontWeight: 600 }}>OR</span> enter their ID and hit
-                call!
+                Give a friend your username (<span className="username">{yourID}</span>) or enter
+                their ID and press call
               </div>
               {error && <Alert severity="error">{error}</Alert>}
               <div className={classes.logoutButton}>
