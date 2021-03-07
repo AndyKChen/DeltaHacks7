@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -11,10 +11,11 @@ import useStyles from './Train-jss';
 
 const Train = () => {
   let identity = 0;
-  let classes = []; // list of classes
+  var classes = [];
   const classesStyles = useStyles();
   const inputEl = useRef(null);
   const { currentUser } = useAuth();
+  const [predictionText, setPredictionText] = useState('');
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
@@ -116,15 +117,20 @@ const Train = () => {
           const result = await knnClassifierModel.predictClass(activation);
 
           //console.log(classes[result.label - 1].name)
+          let text;
           try {
             predictions.innerHTML = classes[result.label - 1].name;
+            text = classes[result.label - 1].name;
             confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
-            document.getElementById('change-prediction').click();
+            document.getElementById('change-prediction-train').click();
           } catch (err) {
             predictions.innerHTML = result.label - 1;
+            text = result.label - 1;
             confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
           }
-
+          if (text !== predictionText) {
+            setPredictionText(text);
+          }
           // Dispose the tensor to release the memory.
           img.dispose();
         }
@@ -191,7 +197,7 @@ const Train = () => {
             ></input>
           </div>
           <div>
-            <VideoFrame id="predictionsUser" />
+            <VideoFrame id="predictionsUser" prediction={predictionText} />
           </div>
         </div>
         <div className={classesStyles.chatContainer}>
@@ -218,6 +224,7 @@ const Train = () => {
             </div>
           </div>
           <div id="training-cards" className={classesStyles.trainingCards}></div>
+          <button hidden id="change-prediction-train"></button>
         </div>
       </div>
     </>
