@@ -18,7 +18,7 @@ const Train = () => {
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
-    const predictions = document.getElementById('predictions');
+    const predictions = document.getElementById('predictionsUser');
     const confidence = document.getElementById('confidence');
 
     const createKNNClassifier = async () => {
@@ -191,7 +191,7 @@ const Train = () => {
             ></input>
           </div>
           <div>
-            <VideoFrame />
+            <VideoFrame id="predictionsUser" />
           </div>
         </div>
         <div className={classesStyles.chatContainer}>
