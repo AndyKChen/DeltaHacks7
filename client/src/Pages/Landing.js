@@ -538,7 +538,18 @@ const Landing = () => {
     }
   }
 
-  async function getUserData() {}
+  async function getUserData() {
+    const body = {
+      username: currentUser.email,
+    };
+    const response = await fetch('/user-model', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    console.log('data', data);
+  }
   // -------------------------------------------------
   let landingHTML = (
     <>
