@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5c793492.chunk.css",
+    "main.js": "/static/js/main.828b4d5d.chunk.js",
+    "main.js.map": "/static/js/main.828b4d5d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.09b85ec0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.09b85ec0.js.map",
+    "static/js/2.b6c7311f.chunk.js": "/static/js/2.b6c7311f.chunk.js",
+    "static/js/2.b6c7311f.chunk.js.map": "/static/js/2.b6c7311f.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.623ac5d754de8fe1d56189c7968fa487.js": "/precache-manifest.623ac5d754de8fe1d56189c7968fa487.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.5c793492.chunk.css.map": "/static/css/main.5c793492.chunk.css.map",
+    "static/js/2.b6c7311f.chunk.js.LICENSE.txt": "/static/js/2.b6c7311f.chunk.js.LICENSE.txt",
+    "static/media/camera-stop.svg": "/static/media/camera-stop.feb48833.svg",
+    "static/media/camera.svg": "/static/media/camera.ff36203c.svg",
+    "static/media/fullscreen.svg": "/static/media/fullscreen.7722d32d.svg",
+    "static/media/hang-up.svg": "/static/media/hang-up.d3ae4842.svg",
+    "static/media/microphone-stop.svg": "/static/media/microphone-stop.bbec867b.svg",
+    "static/media/microphone.svg": "/static/media/microphone.f375b0a7.svg",
+    "static/media/minimize.svg": "/static/media/minimize.612b180a.svg",
+    "static/media/ringtone.mp3": "/static/media/ringtone.0be3c651.mp3",
+    "static/media/share.svg": "/static/media/share.269beb7b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.09b85ec0.js",
+    "static/js/2.b6c7311f.chunk.js",
+    "static/css/main.5c793492.chunk.css",
+    "static/js/main.828b4d5d.chunk.js"
+  ]
+}
