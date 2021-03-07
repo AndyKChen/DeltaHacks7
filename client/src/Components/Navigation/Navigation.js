@@ -32,7 +32,11 @@ const Navigation = () => {
                 <Button color="primary" href="/train" className={classes.linkButton}>Train<AllInclusiveIcon/></Button>
               </Grid>
               <Grid item xs={4}>
-                <Button color="primary" href="/quiz" className={classes.linkButton}>Quiz<CreateIcon/></Button>
+                <Button color="primary" 
+                href="https://www.handspeak.com/word/search/index.php?id=2857" 
+                target="_blank" className={classes.linkButton}>
+                  Documentations<CreateIcon/>
+                </Button>
               </Grid>
             </Grid>
           </div>
