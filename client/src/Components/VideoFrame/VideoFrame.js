@@ -1,9 +1,9 @@
 import Fab from '@material-ui/core/Fab';
 import React from 'react';
+import { useAuth } from '../../Contexts/AuthContext';
 import useStyles from './VideoFrame-jss';
-import { useAuth } from '../../Contexts/AuthContext'
 
-const VideoFrame = ({ video, id, prediction }) => {
+const VideoFrame = ({ video, id, prediction, name }) => {
   const classes = useStyles();
   let videoElem = <video autoPlay playsInline muted id="webcam" className={classes.video}></video>;
   if (video) {
@@ -21,7 +21,7 @@ const VideoFrame = ({ video, id, prediction }) => {
           className={classes.fab}
         >
           <div>
-            <div className={classes.name}></div>
+            <div className={classes.name}>{name}</div>
             <div className={classes.prediction}>
               Prediction (<span id="confidence"></span>%): <span id={id}>{prediction}</span>
             </div>
