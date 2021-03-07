@@ -447,10 +447,7 @@ const Landing = () => {
     }
   }
 
-  async function getUserData() {
-    
-    await
-  }
+  async function getUserData() {}
   // -------------------------------------------------
   let landingHTML = (
     <>
@@ -519,7 +516,7 @@ const Landing = () => {
           <div>{modalMessage}</div>
         </Rodal>
         {incomingCall}
-        <strong>Email:</strong>
+        <strong>Email:</strong> {currentUser && currentUser.email}
         <div>
           <Button onClick={handleLogout}>Log Out</Button>
         </div>
@@ -532,16 +529,17 @@ const Landing = () => {
           </div>
         </div>
         <div className={classes.btnContainer}>
-          <Button variant="contained" className={classes.endCallBtn} startIcon={<CallEndIcon />}>
+          <Button
+            variant="contained"
+            className={classes.endCallBtn}
+            startIcon={<CallEndIcon />}
+            onClick={endCall}
+          >
             End Call
           </Button>
         </div>
       </div>
       {error && <Alert severity="error">{error}</Alert>}
-      <strong>Email:</strong>  {currentUser && currentUser.email}
-      <div>
-        <Button onClick = {handleLogout}>Log Out</Button>
-      </div>
     </>
   );
 };
