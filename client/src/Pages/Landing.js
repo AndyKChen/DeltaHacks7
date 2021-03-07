@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Alert } from '@material-ui/lab';
 import { Button } from '@material-ui/core';
 import CallEndIcon from '@material-ui/icons/CallEnd';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Footer from '../Components/Footer/Footer';
 import { Howl } from 'howler';
 import Navigation from '../Components/Navigation/Navigation';
@@ -58,6 +59,7 @@ const Landing = () => {
   const socket = useRef();
   const myPeer = useRef();
   const classes = useStyles();
+  const uploadEl = useRef();
 
   useEffect(() => {
     socket.current = io.connect('/');
@@ -649,13 +651,18 @@ const Landing = () => {
           <div>{modalMessage}</div>
         </Rodal>
         {incomingCall}
-        <strong>Email:</strong> {currentUser && currentUser.email}
-        <div>
-          <Button onClick={handleLogout}>Log Out</Button>
-        </div>
       </div>
       <div className={`callContainer ${classes.videoBackground}`} style={{ display: renderCall() }}>
         <div className={classes.videoContainer}>
+          <Button
+            variant="outlined"
+            color="primary"
+            className={classes.downloadBtn}
+            startIcon={<CloudUploadIcon />}
+            onClick={() => uploadEl.current.click()}
+          >
+            Upload
+          </Button>
           <div className={classes.twoVideos}>
             <div className="">{PartnerVideo}</div>
             <div className="">{UserVideo}</div>
@@ -673,7 +680,7 @@ const Landing = () => {
         </div>
       </div>
       {error && <Alert severity="error">{error}</Alert>}
-      <div>
+      <div hidden>
         <div id="video-grid"></div>
         <div id="loading"></div>
         <div className="row">
@@ -697,7 +704,13 @@ const Landing = () => {
           <div className="column flex-2-container">
             <div>
               <div className="model">
-                <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
+                <input
+                  ref={uploadEl}
+                  id="load_button"
+                  className="fileinputs"
+                  type="file"
+                  accept=".json"
+                ></input>
                 <label htmlFor="upload-photo">Browse...</label>
               </div>
 

@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+
 const useStyles = makeStyles((theme) => ({
   videoBackground: {
     background: 'black',
@@ -30,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  downloadBtn: {
+    margin: '2px',
+    position: 'absolute',
+    right: '10px',
+    top: '10px',
   },
   endCallBtn: {
     background: '#ef5a5c',
