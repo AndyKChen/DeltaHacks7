@@ -1,20 +1,25 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import GetAppIcon from '@material-ui/icons/GetAppOutlined';
+import Loader from '../Components/Loader';
+import Navigation from '../Components/Navigation/Navigation';
 import TextField from '@material-ui/core/TextField';
 import VideoFrame from '../Components/VideoFrame';
 import { useAuth } from '../Contexts/AuthContext';
 import useStyles from './Train-jss';
-import Navigation from '../Components/Navigation/Navigation';
 
 const Train = () => {
   let identity = 0;
   let classes = []; // list of classes
   const classesStyles = useStyles();
   const inputEl = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
+  if (isLoading && currentUser) {
+    setIsLoading(false);
+  }
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
@@ -158,68 +163,70 @@ const Train = () => {
   return (
     <>
       <div id="loading"></div>
-      <Navigation/>
-      <div className={classesStyles.background}>
-        <div className={classesStyles.videoContainer}>
-          <div className={classesStyles.downloadButtonSet}>
-            <Button
-              id="save_button"
-              color="primary"
-              variant="outlined"
-              className={classesStyles.downloadBtn}
-              startIcon={<GetAppIcon />}
-              onClick={() => downloadModel()}
-            >
-              Download Model
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classesStyles.downloadBtn}
-              startIcon={<CloudUploadIcon />}
-              onClick={() => inputEl.current.click()}
-            >
-              Upload
-            </Button>
-            <input
-              ref={inputEl}
-              id="load_button"
-              className="fileinputs"
-              type="file"
-              accept=".json"
-              style={{ display: 'none' }}
-            ></input>
-          </div>
-          <div>
-            <VideoFrame />
-          </div>
-        </div>
-        <div className={classesStyles.chatContainer}>
-          <div className="column flex-2-container">
+      <Navigation />
+      {isLoading && <Loader />}
+      {!isLoading && (
+        <div className={classesStyles.background}>
+          <div className={classesStyles.videoContainer}>
+            <div className={classesStyles.downloadButtonSet}>
+              <Button
+                id="save_button"
+                color="primary"
+                variant="outlined"
+                className={classesStyles.downloadBtn}
+                startIcon={<GetAppIcon />}
+              >
+                Download Model
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                className={classesStyles.downloadBtn}
+                startIcon={<CloudUploadIcon />}
+                onClick={() => inputEl.current.click()}
+              >
+                Upload
+              </Button>
+              <input
+                ref={inputEl}
+                id="load_button"
+                className="fileinputs"
+                type="file"
+                accept=".json"
+                style={{ display: 'none' }}
+              ></input>
+            </div>
             <div>
-              <div className={classesStyles.addClass}>
-                <input
-                  id="inputClassName"
-                  type="text"
-                  placeholder="Enter word here"
-                  name="option"
-                  className={classesStyles.inputField}
-                  autoComplete="off"
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classesStyles.addButton}
-                  id="add-button"
-                >
-                  Add
-                </Button>
-              </div>
+              <VideoFrame name={currentUser.email} />
             </div>
           </div>
-          <div id="training-cards" className={classesStyles.trainingCards}></div>
+          <div className={classesStyles.chatContainer}>
+            <div className="column flex-2-container">
+              <div>
+                <div className={classesStyles.addClass}>
+                  <input
+                    id="inputClassName"
+                    type="text"
+                    placeholder="Enter word here"
+                    name="option"
+                    className={classesStyles.inputField}
+                    autoComplete="off"
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classesStyles.addButton}
+                    id="add-button"
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div id="training-cards" className={classesStyles.trainingCards}></div>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
