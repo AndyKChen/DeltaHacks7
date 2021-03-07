@@ -182,7 +182,7 @@ const Train = () => {
                 <input
                   id="inputClassName"
                   type="text"
-                  placeholder="Enter Class Name Here"
+                  placeholder="Enter word here"
                   name="option"
                   className={classesStyles.inputField}
                   autoComplete="off"
