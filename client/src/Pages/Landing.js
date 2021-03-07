@@ -36,8 +36,8 @@ var classes_names = [
   { id: 9, name: 'goose', count: 5 },
 ];
 
-const andy_names = ['none', 'hello', 'i love you'];
-const james_names = ['none', 'hello', 'thank you', 'i', 'like', 'your', 'goose'];
+const andy_names = [];
+const james_names = ['hello', 'thank you', 'i', 'like', 'your', 'goose'];
 
 const ringtoneSound = new Howl({
   src: [ringtone],
@@ -218,7 +218,7 @@ const Landing = () => {
       <VideoFrame
         name="Andy"
         id="predictionsUser"
-        prediction={temp1Text}
+        prediction={predictionText}
         video={
           <video
             className="userVideo"
