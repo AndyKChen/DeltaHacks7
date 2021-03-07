@@ -27,12 +27,13 @@ const useStyles = makeStyles((theme) => ({
     bottom: '10px',
   },
   name: {
+    fontSize: '16px',
     fontWeight: '100',
     color: 'white',
     textTransform: 'none',
   },
   prediction: {
-    fontSize: '12px',
+    fontSize: '14px',
     fontWeight: '100',
     color: 'white',
     textTransform: 'none',

@@ -53,7 +53,7 @@ const Train = () => {
       }
 
       trainingCards.innerHTML +=
-        `<div class=${classesStyles.classCard}><div class=${classesStyles.cardText}><div class=${classesStyles.classNameLabel}> Name : <span>` +
+        `<div class=${classesStyles.classCard}><div class=${classesStyles.cardText}><div class=${classesStyles.classNameLabel}> Word : <span>` +
         Classname +
         `</span></div><div class=${classesStyles.imageNameLabel}>Images : <span id = "images-` +
         identity +
