@@ -1,15 +1,12 @@
-import {
-  AppBar,
-  Button,
+import { AppBar, Button } from '@material-ui/core';
+import { BrowserRouter, Link } from 'react-router-dom';
 
-} from '@material-ui/core';
-import React from "react";
-import {BrowserRouter, Link} from 'react-router-dom';
-import useStyles from './Navigation.jss'; 
-import HomeIcon from '@material-ui/icons/Home';
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
 import CreateIcon from '@material-ui/icons/Create';
 import Grid from '@material-ui/core/Grid';
+import HomeIcon from '@material-ui/icons/Home';
+import React from 'react';
+import useStyles from './Navigation.jss';
 
 const Navigation = () => {
   const classes = useStyles();
@@ -26,16 +23,26 @@ const Navigation = () => {
           <div value={value} onChange={handleChange} aria-label="styled tabs example">
             <Grid container spacing={3}>
               <Grid item xs={4}>
-                <Button color="primary" href="/" className={classes.linkButton}>Home<HomeIcon/></Button>
+                <Button color="primary" href="/" className={classes.linkButton}>
+                  Home
+                  <HomeIcon />
+                </Button>
               </Grid>
               <Grid item xs={4}>
-                <Button color="primary" href="/train" className={classes.linkButton}>Train<AllInclusiveIcon/></Button>
+                <Button color="primary" href="/train" className={classes.linkButton}>
+                  Train
+                  <AllInclusiveIcon />
+                </Button>
               </Grid>
               <Grid item xs={4}>
-                <Button color="primary" 
-                href="https://www.handspeak.com/word/search/index.php?id=2857" 
-                target="_blank" className={classes.linkButton}>
-                  Documentations<CreateIcon/>
+                <Button
+                  color="primary"
+                  href="https://www.handspeak.com/word/search/index.php?id=2857"
+                  target="_blank"
+                  className={classes.linkButton}
+                >
+                  Documentation
+                  <CreateIcon />
                 </Button>
               </Grid>
             </Grid>
@@ -43,7 +50,6 @@ const Navigation = () => {
         </section>
       </AppBar>
     </BrowserRouter>
-    
   );
 };
 export default Navigation;

@@ -31,7 +31,6 @@ var classes_names = [
   { id: 3, name: ' love you', count:5 },
 ];
 
-
 const ringtoneSound = new Howl({
   src: [ringtone],
   loop: true,
@@ -505,7 +504,7 @@ const Landing = () => {
               </div>
               <div>
                 <div className="actionText">
-                  Ready to hop on a call,{' '}
+                  Ready for a call,{' '}
                   <span
                     className={copied ? 'username highlight copied' : 'username highlight'}
                     onClick={() => {
@@ -533,18 +532,21 @@ const Landing = () => {
                 </button>
               </div>
               <div>
-                Connecting with friend? Ask them to open this app in their browser. <br />
-                Provide them your username (<span className="username">{yourID}</span>) and wait for their
-                call <span style={{ fontWeight: 600 }}>OR</span> you can enter their ID and hit call!
+                Give a friend your username (<span className="username">{yourID}</span>) or enter
+                their ID and press call
               </div>
               {error && <Alert severity="error">{error}</Alert>}
-
               <div className={classes.logoutButton}>
-                {currentUser ? (<Button onClick = {handleLogout}>Log Out</Button>)
-                : <div><Button href="/signup">SignUP</Button><Button href="/login">Login</Button></div>
-                }
+                {currentUser ? (
+                  <Button onClick={handleLogout}>Log Out</Button>
+                ) : (
+                  <div>
+                    <Button href="/signup">SignUP</Button>
+                    <Button href="/login">Login</Button>
+                  </div>
+                )}
               </div>
-              <strong>Email:</strong>  {currentUser && currentUser.email}
+              <strong>Email:</strong> {currentUser && currentUser.email}
             </div>
           </div>
         </div>
