@@ -4,7 +4,6 @@ import { Alert } from '@material-ui/lab';
 import { Button } from '@material-ui/core';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Footer from '../Components/Footer/Footer';
 import { Howl } from 'howler';
 import Navigation from '../Components/Navigation/Navigation';
 import Peer from 'simple-peer';
@@ -25,7 +24,11 @@ import useStyles from './Landing-jss';
 
 // --------------------------------------------------
 var identity = 0;
-var classes = [];
+var classes = [
+  { id: 1, name: 'none', count: 5 },
+  { id: 2, name: 'hello', count: 5 },
+  { id: 3, name: ' love you' },
+];
 
 const ringtoneSound = new Howl({
   src: [ringtone],
@@ -540,7 +543,6 @@ const Landing = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 
