@@ -2,11 +2,15 @@ import Fab from '@material-ui/core/Fab';
 import React from 'react';
 import useStyles from './VideoFrame-jss';
 
-const VideoFrame = () => {
+const VideoFrame = ({ video }) => {
   const classes = useStyles();
+  let videoElem = <video autoPlay playsInline muted id="webcam" className={classes.video}></video>;
+  if (video) {
+    videoElem = video;
+  }
   return (
     <div className={classes.videoFrame}>
-      <video autoPlay playsInline muted id="webcam" className={classes.video}></video>
+      {videoElem}
       <div className={classes.nameContainer}>
         <Fab
           disableRipple

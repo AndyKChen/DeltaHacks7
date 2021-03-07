@@ -1,26 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { Alert } from '@material-ui/lab';
+import { Button } from '@material-ui/core';
+import CallEndIcon from '@material-ui/icons/CallEnd';
 import Footer from '../Components/Footer/Footer';
 import { Howl } from 'howler';
 import Navigation from '../Components/Navigation/Navigation';
 import Peer from 'simple-peer';
 import Rodal from 'rodal';
+import VideoFrame from '../Components/VideoFrame';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import camera from '../Icons/camera.svg';
 import camerastop from '../Icons/camera-stop.svg';
 import fullscreen from '../Icons/fullscreen.svg';
-import hangup from '../Icons/hang-up.svg';
 import io from 'socket.io-client';
-import microphone from '../Icons/microphone.svg';
-import microphonestop from '../Icons/microphone-stop.svg';
 import minimize from '../Icons/minimize.svg';
 import ringtone from '../Sounds/ringtone.mp3';
 import share from '../Icons/share.svg';
+import { useAuth } from '../Contexts/AuthContext';
+import { useHistory } from 'react-router';
+import useStyles from './Landing-jss';
 
 // --------------------------------------------------
-import { Button } from '@material-ui/core';
-import { Alert } from "@material-ui/lab"
-import { useAuth } from '../Contexts/AuthContext'
-import { useHistory } from 'react-router';
 
 const ringtoneSound = new Howl({
   src: [ringtone],
@@ -50,6 +52,7 @@ const Landing = () => {
   const partnerVideo = useRef();
   const socket = useRef();
   const myPeer = useRef();
+  const classes = useStyles();
 
   useEffect(() => {
     socket.current = io.connect('/');
@@ -185,27 +188,65 @@ const Landing = () => {
 
   let UserVideo;
   if (stream) {
-    UserVideo = <video className="userVideo" playsInline muted ref={userVideo} autoPlay />;
+    UserVideo = (
+      <VideoFrame
+        video={
+          <video
+            className="userVideo"
+            playsInline
+            muted
+            ref={userVideo}
+            className={classes.video}
+            autoPlay
+          />
+        }
+      />
+    );
   }
 
   let PartnerVideo;
-  if (callAccepted && isfullscreen) {
-    PartnerVideo = <video className="partnerVideo cover" playsInline ref={partnerVideo} autoPlay />;
-  } else if (callAccepted && !isfullscreen) {
-    PartnerVideo = <video className="partnerVideo" playsInline ref={partnerVideo} autoPlay />;
+  if (callAccepted) {
+    if (callAccepted && isfullscreen) {
+      PartnerVideo = (
+        <VideoFrame
+          video={
+            <video
+              playsInline
+              ref={partnerVideo}
+              className={`partnerVideo cover ${classes.video}`}
+              autoPlay
+            />
+          }
+        />
+      );
+    } else if (callAccepted && !isfullscreen) {
+      PartnerVideo = (
+        <VideoFrame
+          video={
+            <video
+              className="partnerVideo"
+              playsInline
+              ref={partnerVideo}
+              className={`partnerVideo ${classes.video} `}
+              autoPlay
+            />
+          }
+        />
+      );
+    }
   }
 
   let audioControl;
   if (audioMuted) {
     audioControl = (
       <span className="iconContainer" onClick={() => toggleMuteAudio()}>
-        <img src={microphonestop} alt="Unmute audio" />
+        <VolumeOffIcon />
       </span>
     );
   } else {
     audioControl = (
       <span className="iconContainer" onClick={() => toggleMuteAudio()}>
-        <img src={microphone} alt="Mute audio" />
+        <VolumeUpIcon />
       </span>
     );
   }
@@ -233,12 +274,6 @@ const Landing = () => {
   // if(isMobileDevice()){
   //   screenShare=<></>
   // }
-
-  let hangUp = (
-    <span className="iconContainer" onClick={() => endCall()}>
-      <img src={hangup} alt="End call" />
-    </span>
-  );
 
   let fullscreenButton;
   if (isfullscreen) {
@@ -291,6 +326,8 @@ const Landing = () => {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
+          getUserData();
+
           setStream(stream);
           setCallingFriend(true);
           setCaller(id);
@@ -397,18 +434,22 @@ const Landing = () => {
     }
   }
   // ------------------------------------------
-  const [error, setError] = useState("")
-  const { currentUser, logout } = useAuth()
-  const history = useHistory()
+  const [error, setError] = useState('');
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
   async function handleLogout() {
-    setError('')
+    setError('');
     try {
-      await logout()
-      history.push('/login')
+      await logout();
+      history.push('/login');
     } catch {
-      setError('Failed to log out')
+      setError('Failed to log out');
     }
+  }
 
+  async function getUserData() {
+    
+    await
   }
   // -------------------------------------------------
   let landingHTML = (
@@ -484,16 +525,22 @@ const Landing = () => {
           <div>{modalMessage}</div>
         </Rodal>
         {incomingCall}
+        <strong>Email:</strong>
+        <div>
+          <Button onClick={handleLogout}>Log Out</Button>
+        </div>
       </div>
-      <div className="callContainer" style={{ display: renderCall() }}>
-        <div className="partnerVideoContainer">{PartnerVideo}</div>
-        <div className="userVideoContainer">{UserVideo}</div>
-        <div className="controlsContainer flex">
-          {audioControl}
-          {videoControl}
-          {screenShare}
-          {fullscreenButton}
-          {hangUp}
+      <div className={`callContainer ${classes.videoBackground}`} style={{ display: renderCall() }}>
+        <div className={classes.videoContainer}>
+          <div className={classes.twoVideos}>
+            <div className="">{PartnerVideo}</div>
+            <div className="">{UserVideo}</div>
+          </div>
+        </div>
+        <div className={classes.btnContainer}>
+          <Button variant="contained" className={classes.endCallBtn} startIcon={<CallEndIcon />}>
+            End Call
+          </Button>
         </div>
       </div>
     </>
