@@ -24,11 +24,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: '1',
     marginLeft: '20px',
   },
-  downloadBtn: {
-    zIndex: '10',
+  downloadButtonSet: {
     position: 'absolute',
     right: '20px',
     top: '20px',
+    zIndex: '10',
+  },
+  downloadBtn: {
+    margin: '2px',
   },
   trainingCards: {
     color: 'white',
@@ -55,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     padding: '10px',
     marginTop: '10px',
+    width: '100%',
   },
   classNameLabel: {
     fontSize: '18px',
@@ -71,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     textDecoration: 'none',
     display: 'inlineBlock',
-    fontSize: '16px',
+    fontSize: '12px',
     margin: '4px 2px',
     cursor: 'pointer',
     borderRadius: '10px',
@@ -87,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
     background: 'transparent',
     transition: 'border-color 0.2s',
   },
-  addClass: {},
   addButton: {
+    fontSize: '12px',
     padding: '6px',
     marginLeft: '5px',
     color: '#ffffff',

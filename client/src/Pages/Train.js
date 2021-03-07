@@ -1,7 +1,8 @@
+import React, { useRef } from 'react';
+
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import GetAppIcon from '@material-ui/icons/GetAppOutlined';
-import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import VideoFrame from '../Components/VideoFrame';
 import useStyles from './Train-jss';
@@ -10,6 +11,7 @@ const Train = () => {
   let identity = 0;
   let classes = []; // list of classes
   const classesStyles = useStyles();
+  const inputEl = useRef(null);
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
@@ -156,10 +158,12 @@ const Train = () => {
               color="primary"
               className={classesStyles.downloadBtn}
               startIcon={<CloudUploadIcon />}
+              onClick={() => inputEl.current.click()}
             >
               Upload
             </Button>
             <input
+              ref={inputEl}
               id="load_button"
               className="fileinputs"
               type="file"
