@@ -5,6 +5,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import GetAppIcon from '@material-ui/icons/GetAppOutlined';
 import TextField from '@material-ui/core/TextField';
 import VideoFrame from '../Components/VideoFrame';
+import { useAuth } from '../Contexts/AuthContext';
 import useStyles from './Train-jss';
 import Navigation from '../Components/Navigation/Navigation';
 
@@ -13,6 +14,7 @@ const Train = () => {
   let classes = []; // list of classes
   const classesStyles = useStyles();
   const inputEl = useRef(null);
+  const { currentUser } = useAuth();
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
@@ -138,6 +140,21 @@ const Train = () => {
     await start();
   };
 
+  async function downloadModel() {
+    const body = {
+      username: currentUser.email,
+      model: { something: 0 },
+      classes: ['abc', 'zxc'],
+    };
+    const response = await fetch('/upload-model', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    // const data = await response.json();
+    console.log('donwloaded', response);
+  }
+
   return (
     <>
       <div id="loading"></div>
@@ -151,6 +168,7 @@ const Train = () => {
               variant="outlined"
               className={classesStyles.downloadBtn}
               startIcon={<GetAppIcon />}
+              onClick={() => downloadModel()}
             >
               Download Model
             </Button>

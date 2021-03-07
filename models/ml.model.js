@@ -1,21 +1,24 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const mlSchema = new Schema({
+const mlSchema = new Schema(
+  {
     username: {
-        type: String
+      type: String,
     },
     model: {
-        type: Object
-    }, 
+      type: Object,
+    },
     classes: {
-        type: Array
-    }
-}, {
-    timestamps: true
-})
+      type: Array,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const ML = mongoose.model('ML', mlSchema);
+const ML = mongoose.model("ML", mlSchema);
 
 module.exports = ML;
