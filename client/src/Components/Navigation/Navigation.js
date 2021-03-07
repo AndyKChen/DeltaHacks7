@@ -1,43 +1,15 @@
 import {
   AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
+  Button,
 
 } from '@material-ui/core';
 import React from "react";
-import { withStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import {BrowserRouter, Link} from 'react-router-dom';
 import useStyles from './Navigation.jss'; 
-
-const StyledTabs = withStyles({
-  indicator: {
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    '& > span': {
-      maxWidth: 40,
-      width: '100%',
-      backgroundColor: '#635ee7',
-    },
-  },
-})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
-
-const StyledTab = withStyles((theme) => ({
-  root: {
-    textTransform: 'none',
-    color: '#fff',
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(15),
-    marginRight: theme.spacing(1),
-    '&:focus': {
-      opacity: 1,
-    },
-  },
-}))((props) => <Tab disableRipple {...props} />);
-
+import HomeIcon from '@material-ui/icons/Home';
+import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
+import CreateIcon from '@material-ui/icons/Create';
+import Grid from '@material-ui/core/Grid';
 
 const Navigation = () => {
   const classes = useStyles();
@@ -50,18 +22,24 @@ const Navigation = () => {
   return (
     <BrowserRouter>
       <AppBar position="static" className={classes.navBar}>
-          
-
-      <section className={classes.ctr}>
-      <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
-          <StyledTab label="Learn" to="/learn" component={Link}/>
-          <StyledTab label="Train" to="/train" component={Link}/>
-          <StyledTab label="Talk" to="/talk" component={Link}/>
-        </StyledTabs>
-      </section>
-    </AppBar>
+        <section className={classes.ctr}>
+          <div value={value} onChange={handleChange} aria-label="styled tabs example">
+            <Grid container spacing={3}>
+              <Grid item xs={4}>
+                <Button color="primary" href="/" className={classes.linkButton}>Home<HomeIcon/></Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button color="primary" href="/train" className={classes.linkButton}>Train<AllInclusiveIcon/></Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button color="primary" href="/quiz" className={classes.linkButton}>Quiz<CreateIcon/></Button>
+              </Grid>
+            </Grid>
+          </div>
+        </section>
+      </AppBar>
     </BrowserRouter>
-
+    
   );
 };
 export default Navigation;

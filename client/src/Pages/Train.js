@@ -6,6 +6,7 @@ import GetAppIcon from '@material-ui/icons/GetAppOutlined';
 import TextField from '@material-ui/core/TextField';
 import VideoFrame from '../Components/VideoFrame';
 import useStyles from './Train-jss';
+import Navigation from '../Components/Navigation/Navigation';
 
 const Train = () => {
   let identity = 0;
@@ -140,7 +141,7 @@ const Train = () => {
   return (
     <>
       <div id="loading"></div>
-
+      <Navigation/>
       <div className={classesStyles.background}>
         <div className={classesStyles.videoContainer}>
           <div className={classesStyles.downloadButtonSet}>
