@@ -30,10 +30,10 @@ var classes_names = [
   { id: 2, name: 'hello', count: 5 },
   { id: 3, name: 'i love you', count: 5 },
   { id: 4, name: 'thank you', count: 5 },
-  { id: 5, name: 'I', count: 5 },
-  { id: 5, name: 'like', count: 5 },
-  { id: 5, name: 'you', count: 5 },
-  { id: 5, name: 'goose', count: 5 },
+  { id: 6, name: 'I', count: 5 },
+  { id: 7, name: 'like', count: 5 },
+  { id: 8, name: 'your', count: 5 },
+  { id: 9, name: 'goose', count: 5 },
 ];
 
 const ringtoneSound = new Howl({

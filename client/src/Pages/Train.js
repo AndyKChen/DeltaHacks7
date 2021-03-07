@@ -79,7 +79,7 @@ const Train = () => {
         .addEventListener('click', () => addClass(inputClassName));
       // document.getElementById('btnSpeak').addEventListener('click', () => speak());
       // document.getElementById('load_button').addEventListener('change', (event) => uploadModel(knnClassifierModel, event));
-      // document.getElementById('save_button').addEventListener('click', async () => downloadModel(knnClassifierModel));
+      document.getElementById('save_button').addEventListener('click', async () => downloadModel(knnClassifierModel));
     };
 
     const addDatasetClass = async (classId) => {
@@ -142,23 +142,29 @@ const Train = () => {
     await imageClassificationWithTransferLearningOnWebcam();
   };
 
+  const saveClassifier = (classifierModel) => {
+    let datasets = classifierModel.getClassifierDataset();
+    let datasetObject = {};
+    Object.keys(datasets).forEach((key) => {
+         let data = datasets[key].dataSync();
+         datasetObject[key] = Array.from(data);
+    });
+    let jsonModel = JSON.stringify(datasetObject);
+    console.log(jsonModel)
+    let downloader = document.createElement('a');
+    downloader.download = "model.json";
+    downloader.href = 'data:text/text;charset=utf-8,' + encodeURIComponent(jsonModel);
+    document.body.appendChild(downloader);
+    downloader.click();
+    downloader.remove();
+};
+
   window.onload = async () => {
     await start();
   };
 
-  async function downloadModel() {
-    const body = {
-      username: currentUser.email,
-      model: { something: 0 },
-      classes: ['abc', 'zxc'],
-    };
-    const response = await fetch('/upload-model', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    // const data = await response.json();
-    console.log('donwloaded', response);
+  const downloadModel = async (classifierModel) => {
+    saveClassifier(classifierModel);
   }
 
   return (
