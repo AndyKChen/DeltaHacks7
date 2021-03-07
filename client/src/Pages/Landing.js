@@ -419,7 +419,7 @@ const Landing = () => {
           <div className="o-wrapper-l">
             <div className="hero flex flex-column">
               <div>
-                <div className="welcomeText">Anonymous Video Calls</div>
+                <div className="welcomeText">motion</div>
                 <div className="descriptionText">across the world for free</div>
               </div>
               <div>
