@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
+
+import Button from '@material-ui/core/Button';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import GetAppIcon from '@material-ui/icons/GetAppOutlined';
+import TextField from '@material-ui/core/TextField';
+import VideoFrame from '../Components/VideoFrame';
+import useStyles from './Train-jss';
 
 const Train = () => {
   let identity = 0;
   let classes = []; // list of classes
+  const classesStyles = useStyles();
+  const inputEl = useRef(null);
 
   const start = async () => {
     const trainingCards = document.getElementById('training-cards');
@@ -44,13 +53,13 @@ const Train = () => {
       }
 
       trainingCards.innerHTML +=
-        '<div class="newshifter"><div class="text-center"><h3>Class Name : <span>' +
+        `<div class=${classesStyles.classCard}><div class=${classesStyles.cardText}><div class=${classesStyles.classNameLabel}> Word : <span>` +
         Classname +
-        '</span></h3><h3>Images : <span id = "images-' +
+        `</span></div><div class=${classesStyles.imageNameLabel}>Images : <span id = "images-` +
         identity +
-        '" >0</span></h3></div ><div><button class="dark btn-spread btn-shadow mr-5" id="' +
+        `" >0</span></div></div ><div><button class=${classesStyles.addImage} id="` +
         identity +
-        '">Add New Images <i class="fas fa-plus fa-1x"></i></button></div></div>';
+        '">Add Image <i class="fas fa-plus fa-1x"></i></button></div></div>';
 
       document
         .getElementById(identity.toString())
@@ -129,52 +138,70 @@ const Train = () => {
   };
 
   return (
-    <div>
-      <div id="video-grid"></div>
+    <>
       <div id="loading"></div>
-      <div className="row">
-        <div className="mycam">
-          <video autoPlay playsInline muted id="webcam" className="cam"></video>
-          <div className="grey-bg">
-            <div className="row text-center">
-              <h3>
-                Prediction: <span id="predictions"></span>
-              </h3>
-              <h3>
-                Probability : <span id="confidence"></span> %
-              </h3>
-              <button hidden id="change-prediction"></button>
-            </div>
+
+      <div className={classesStyles.background}>
+        <div className={classesStyles.videoContainer}>
+          <div className={classesStyles.downloadButtonSet}>
+            <Button
+              id="save_button"
+              color="primary"
+              variant="outlined"
+              className={classesStyles.downloadBtn}
+              startIcon={<GetAppIcon />}
+            >
+              Download Model
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classesStyles.downloadBtn}
+              startIcon={<CloudUploadIcon />}
+              onClick={() => inputEl.current.click()}
+            >
+              Upload
+            </Button>
+            <input
+              ref={inputEl}
+              id="load_button"
+              className="fileinputs"
+              type="file"
+              accept=".json"
+              style={{ display: 'none' }}
+            ></input>
+          </div>
+          <div>
+            <VideoFrame />
           </div>
         </div>
-        <div className="column flex-2-container">
-          <div>
-            <div className="model">
-              <button className="dark btn-lg btn-shadow " id="save_button">
-                Download Model
-                <i className="fas fa-download"></i>
-              </button>
-              <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
-              <label htmlFor="upload-photo">Browse...</label>
+        <div className={classesStyles.chatContainer}>
+          <div className="column flex-2-container">
+            <div>
+              <div className={classesStyles.addClass}>
+                <input
+                  id="inputClassName"
+                  type="text"
+                  placeholder="Enter word here"
+                  name="option"
+                  className={classesStyles.inputField}
+                  autoComplete="off"
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classesStyles.addButton}
+                  id="add-button"
+                >
+                  Add
+                </Button>
+              </div>
             </div>
-            <div className="add-class text-center">
-              <input
-                id="inputClassName"
-                type="text"
-                placeholder="Enter Class Name Here"
-                name="option"
-              />
-              <button className="dark btn-lg btn-shadow mr-5" id="add-button">
-                Add
-                <i className="fas  fa-plus fa-1x"></i>
-              </button>
-            </div>
-
-            <div id="training-cards"></div>
           </div>
+          <div id="training-cards" className={classesStyles.trainingCards}></div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

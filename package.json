@@ -1,14 +1,14 @@
 {
-  "name": "video-chat-server",
+  "name": "motion",
   "version": "0.1.0",
-  "description": "Server for React video chat client",
   "main": "server.js",
-  "repository": "https://github.com/somikdatta/video-chat-react-server.git",
-  "author": "Somik Datta <developersomik@gmail.com>",
-  "license": "MIT",
+  "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm start",
   "dependencies": {
-    "awake-heroku": "^1.0.17",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mongoose": "^5.11.19",
     "socket.io": "^2.4.0",
     "username-generator": "^1.1.0"
   }
