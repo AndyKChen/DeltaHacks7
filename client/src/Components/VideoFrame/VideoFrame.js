@@ -3,12 +3,15 @@ import React from 'react';
 import useStyles from './VideoFrame-jss';
 import { useAuth } from '../../Contexts/AuthContext'
 
-const VideoFrame = () => {
+const VideoFrame = ({ video, id, prediction }) => {
   const classes = useStyles();
-  const { currentUser } = useAuth()
+  let videoElem = <video autoPlay playsInline muted id="webcam" className={classes.video}></video>;
+  if (video) {
+    videoElem = video;
+  }
   return (
     <div className={classes.videoFrame}>
-      <video autoPlay playsInline muted id="webcam" className={classes.video}></video>
+      {videoElem}
       <div className={classes.nameContainer}>
         <Fab
           disableRipple
@@ -18,10 +21,9 @@ const VideoFrame = () => {
           className={classes.fab}
         >
           <div>
-            <div className={classes.name}>{currentUser ? currentUser.email : "Not signed in"}</div>
+            <div className={classes.name}></div>
             <div className={classes.prediction}>
-              Prediction (<span id="confidence"></span>%): <span id="predictions"></span>
-              <button hidden id="change-prediction"></button>
+              Prediction (<span id="confidence"></span>%): <span id={id}>{prediction}</span>
             </div>
           </div>
         </Fab>
