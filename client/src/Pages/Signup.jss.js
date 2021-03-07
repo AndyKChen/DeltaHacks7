@@ -1,10 +1,32 @@
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
+    rootRoot: {
+      backgroundColor: '#21242b',
+      display: 'flex',
+      justifyContent: 'center', 
+      paddingTop: '10%',
+      height: '100vh'
+    },
+    root: {
+      display: 'flex', 
+      justifyContent: 'center',
+      color: '#FFFFFF',
+      backgroundColor: '#4e5361',
+      height: '70%'
+    },
+    title: {
+      fontWeight: '600'
+    },
+    container: {
+      width: '70%',
+      margin: 0, 
+      padding: 0,
+    },
     paper: {
-      marginTop: theme.spacing(8),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginTop: '3%'
     },
     form: {
       width: '90%', // Fix IE 11 issue.
@@ -18,11 +40,13 @@ const useStyles = makeStyles((theme) => ({
         margin: 'auto',
     },
     textField: {
-        maxWidth: '500px',
+      maxWidth: '500px',
+      color: 'primary', 
+      borderColor: 'primary'
     },
     submit: {
       width: '50%',
-      margin: '10px 25% 25px',
+      margin: '20px 25% 25px',
     },
     links: {
         textAlign: 'center',

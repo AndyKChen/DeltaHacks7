@@ -1,6 +1,7 @@
 import Fab from '@material-ui/core/Fab';
 import React from 'react';
 import useStyles from './VideoFrame-jss';
+import { useAuth } from '../../Contexts/AuthContext'
 
 const VideoFrame = ({ video, id, prediction }) => {
   const classes = useStyles();
@@ -20,7 +21,7 @@ const VideoFrame = ({ video, id, prediction }) => {
           className={classes.fab}
         >
           <div>
-            <div className={classes.name}>James Cahyadi</div>
+            <div className={classes.name}></div>
             <div className={classes.prediction}>
               Prediction (<span id="confidence"></span>%): <span id={id}>{prediction}</span>
             </div>

@@ -23,12 +23,14 @@ import { useHistory } from 'react-router';
 import useStyles from './Landing-jss';
 
 // --------------------------------------------------
+
 var identity = 0;
 var classes = [
   { id: 1, name: 'none', count: 5 },
   { id: 2, name: 'hello', count: 5 },
   { id: 3, name: ' love you' },
 ];
+
 
 const ringtoneSound = new Howl({
   src: [ringtone],
@@ -457,6 +459,7 @@ const Landing = () => {
   const [error, setError] = useState('');
   const { currentUser, logout } = useAuth();
   const history = useHistory();
+
   async function handleLogout() {
     setError('');
     try {
@@ -502,7 +505,7 @@ const Landing = () => {
               </div>
               <div>
                 <div className="actionText">
-                  Who do you want to call,{' '}
+                  Ready to hop on a call,{' '}
                   <span
                     className={copied ? 'username highlight copied' : 'username highlight'}
                     onClick={() => {
@@ -517,7 +520,7 @@ const Landing = () => {
               <div className="callBox flex">
                 <input
                   type="text"
-                  placeholder="Friend ID"
+                  placeholder="Friend ID #"
                   value={receiverID}
                   onChange={(e) => setReceiverID(e.target.value)}
                   className="form-input"
@@ -530,15 +533,18 @@ const Landing = () => {
                 </button>
               </div>
               <div>
-                To call your friend, ask them to open this app in their browser. <br />
-                Send your username (<span className="username">{yourID}</span>) and wait for their
-                call <span style={{ fontWeight: 600 }}>OR</span> enter their username and hit call!
+                Connecting with friend? Ask them to open this app in their browser. <br />
+                Provide them your username (<span className="username">{yourID}</span>) and wait for their
+                call <span style={{ fontWeight: 600 }}>OR</span> you can enter their ID and hit call!
               </div>
               {error && <Alert severity="error">{error}</Alert>}
-              <strong>Email:</strong> {currentUser && currentUser.email}
-              <div>
-                <Button onClick={handleLogout}>Log Out</Button>
+
+              <div className={classes.logoutButton}>
+                {currentUser ? (<Button onClick = {handleLogout}>Log Out</Button>)
+                : <div><Button href="/signup">SignUP</Button><Button href="/login">Login</Button></div>
+                }
               </div>
+              <strong>Email:</strong>  {currentUser && currentUser.email}
             </div>
           </div>
         </div>
