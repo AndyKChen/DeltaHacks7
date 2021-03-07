@@ -1,6 +1,6 @@
 # Motion
 
-### About the project
+### About the Project
 Motion is a video chat and educational platform that aims to make chatting online more accessible for people who are deaf or hard of hearing.
 
 ### Built With
