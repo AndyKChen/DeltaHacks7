@@ -447,10 +447,7 @@ const Landing = () => {
     }
   }
 
-  async function getUserData() {
-    
-    await
-  }
+  async function getUserData() {}
   // -------------------------------------------------
   let landingHTML = (
     <>
@@ -497,11 +494,10 @@ const Landing = () => {
                 Send your username (<span className="username">{yourID}</span>) and wait for their
                 call <span style={{ fontWeight: 600 }}>OR</span> enter their username and hit call!
               </div>
-              
               {error && <Alert severity="error">{error}</Alert>}
-              <strong>Email:</strong>  {currentUser && currentUser.email}
+              <strong>Email:</strong> {currentUser && currentUser.email}
               <div>
-                <Button onClick = {handleLogout}>Log Out</Button>
+                <Button onClick={handleLogout}>Log Out</Button>
               </div>
             </div>
           </div>
@@ -525,7 +521,7 @@ const Landing = () => {
           <div>{modalMessage}</div>
         </Rodal>
         {incomingCall}
-        <strong>Email:</strong>
+        <strong>Email:</strong> {currentUser && currentUser.email}
         <div>
           <Button onClick={handleLogout}>Log Out</Button>
         </div>
@@ -538,7 +534,12 @@ const Landing = () => {
           </div>
         </div>
         <div className={classes.btnContainer}>
-          <Button variant="contained" className={classes.endCallBtn} startIcon={<CallEndIcon />}>
+          <Button
+            variant="contained"
+            className={classes.endCallBtn}
+            startIcon={<CallEndIcon />}
+            onClick={endCall}
+          >
             End Call
           </Button>
         </div>
