@@ -37,7 +37,7 @@ var classes_names = [
 ];
 
 const andy_names = [];
-const james_names = ['hello', 'thank you', 'i', 'like', 'your', 'goose'];
+const james_names = ['none', 'hello', 'thank you', 'i', 'like', 'your', 'goose'];
 
 const ringtoneSound = new Howl({
   src: [ringtone],
