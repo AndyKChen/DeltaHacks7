@@ -16,6 +16,6 @@ const mlSchema = new Schema({
     timestamps: true
 })
 
-const ML = mongoose.model('User', mlSchema);
+const ML = mongoose.model('ML', mlSchema);
 
 module.exports = ML;
