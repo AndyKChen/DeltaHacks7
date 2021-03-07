@@ -25,10 +25,10 @@ import useStyles from './Landing-jss';
 // --------------------------------------------------
 
 var identity = 0;
-var classes = [
+var classes_names = [
   { id: 1, name: 'none', count: 5 },
   { id: 2, name: 'hello', count: 5 },
-  { id: 3, name: ' love you' },
+  { id: 3, name: ' love you', count:5 },
 ];
 
 
@@ -614,8 +614,8 @@ const Landing = () => {
           //console.log(classes[result.label - 1].name)
           let text = '';
           try {
-            predictions.innerHTML = classes[result.label - 1].name;
-            text = classes[result.label - 1].name;
+            predictions.innerHTML = classes_names[result.label - 1]['name'];
+            text = classes_names[result.label - 1]['name'];
             confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
           } catch (err) {
             predictions.innerHTML = result.label - 1;
