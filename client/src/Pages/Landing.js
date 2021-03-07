@@ -28,7 +28,7 @@ var identity = 0;
 var classes_names = [
   { id: 1, name: 'none', count: 5 },
   { id: 2, name: 'hello', count: 5 },
-  { id: 3, name: ' love you', count:5 },
+  { id: 3, name: ' love you', count: 5 },
 ];
 
 const ringtoneSound = new Howl({
@@ -64,6 +64,9 @@ const Landing = () => {
   const myPeer = useRef();
   const classes = useStyles();
   const uploadEl = useRef();
+  const [error, setError] = useState('');
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
 
   useEffect(() => {
     socket.current = io.connect('/');
@@ -201,6 +204,7 @@ const Landing = () => {
   if (stream) {
     UserVideo = (
       <VideoFrame
+        name={currentUser.email}
         id="predictionsUser"
         prediction={predictionText}
         video={
@@ -235,6 +239,7 @@ const Landing = () => {
     } else if (callAccepted && !isfullscreen) {
       PartnerVideo = (
         <VideoFrame
+          name={currentUser.email}
           id="prediction1"
           prediction={prediction1Text}
           video={
@@ -455,9 +460,6 @@ const Landing = () => {
   }
 
   // ------------------------------------------
-  const [error, setError] = useState('');
-  const { currentUser, logout } = useAuth();
-  const history = useHistory();
 
   async function handleLogout() {
     setError('');
