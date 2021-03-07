@@ -50,6 +50,12 @@ app.post('/random-question', async(req, res) => {
     }
 })
 
+app.get('/user-model', async(req, res) => {
+    Model.findOne({username:req.body.username})
+        .then(model => res.json(model))
+        .catch(err =>res.status(400).son('Error ' + err))
+})
+
 app.post('/upload-model', async(req, res) => {
     try {
         const { username, model, classes } = req.body();
