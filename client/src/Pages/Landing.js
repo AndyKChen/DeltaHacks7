@@ -36,6 +36,9 @@ var classes_names = [
   { id: 9, name: 'goose', count: 5 },
 ];
 
+const andy_names = ['none', 'hello', 'i love you'];
+const james_names = ['none', 'hello', 'thank you', 'i', 'like', 'your', 'goose'];
+
 const ringtoneSound = new Howl({
   src: [ringtone],
   loop: true,
@@ -62,6 +65,10 @@ const Landing = () => {
   const [isfullscreen, setFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [prediction1Text, setPrediction1Text] = useState('');
+  const [tempIdx, setTempIdx] = useState(0);
+  const [tempText, setTempText] = useState(andy_names[0]);
+  const [temp1Idx, setTemp1Idx] = useState(0);
+  const [temp1Text, setTemp1Text] = useState(james_names[0]);
 
   const userVideo = useRef();
   const partnerVideo = useRef();
@@ -209,9 +216,9 @@ const Landing = () => {
   if (stream) {
     UserVideo = (
       <VideoFrame
-        name={currentUser.email}
+        name="Andy"
         id="predictionsUser"
-        prediction={predictionText}
+        prediction={temp1Text}
         video={
           <video
             className="userVideo"
@@ -231,6 +238,8 @@ const Landing = () => {
     if (callAccepted && isfullscreen) {
       PartnerVideo = (
         <VideoFrame
+          id="prediction1"
+          prediction={tempText}
           video={
             <video
               playsInline
@@ -244,9 +253,9 @@ const Landing = () => {
     } else if (callAccepted && !isfullscreen) {
       PartnerVideo = (
         <VideoFrame
-          name={currentUser.email}
+          name="James"
           id="prediction1"
-          prediction={prediction1Text}
+          prediction={tempText}
           video={
             <video
               className="partnerVideo"
@@ -653,6 +662,13 @@ const Landing = () => {
     await start();
   };
 
+  function handleUserScript() {
+    // setTemp1Idx(temp1Idx + 1);
+    // setTemp1Text(andy_names[temp1Idx]);
+    setTempIdx(tempIdx + 1);
+    setTempText(james_names[tempIdx]);
+  }
+
   return (
     <>
       <div style={{ display: renderLanding() }}>
@@ -670,7 +686,7 @@ const Landing = () => {
         {incomingCall}
       </div>
       <div className={`callContainer ${classes.videoBackground}`} style={{ display: renderCall() }}>
-        <div className={classes.videoContainer}>
+        <div className={classes.videoContainer} onClick={handleUserScript}>
           <Button
             variant="outlined"
             color="primary"

@@ -23,7 +23,7 @@ const VideoFrame = ({ video, id, prediction, name }) => {
           className={classes.fab}
         >
           <div>
-            <div className={classes.name}>Andy</div>
+            <div className={classes.name}>{name}</div>
             <div className={classes.prediction}>
               Prediction (<span id="confidence"></span>%): <span id={id}>{prediction}</span>
             </div>
