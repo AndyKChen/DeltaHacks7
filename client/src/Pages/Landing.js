@@ -456,6 +456,12 @@ const Landing = () => {
                 Send your username (<span className="username">{yourID}</span>) and wait for their
                 call <span style={{ fontWeight: 600 }}>OR</span> enter their username and hit call!
               </div>
+              
+              {error && <Alert severity="error">{error}</Alert>}
+              <strong>Email:</strong>  {currentUser && currentUser.email}
+              <div>
+                <Button onClick = {handleLogout}>Log Out</Button>
+              </div>
             </div>
           </div>
         </div>
@@ -489,11 +495,6 @@ const Landing = () => {
           {fullscreenButton}
           {hangUp}
         </div>
-      </div>
-      {error && <Alert severity="error">{error}</Alert>}
-      <strong>Email:</strong>  {currentUser && currentUser.email}
-      <div>
-        <Button onClick = {handleLogout}>Log Out</Button>
       </div>
     </>
   );
