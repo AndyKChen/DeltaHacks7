@@ -35,6 +35,8 @@ const ringtoneSound = new Howl({
   preload: true,
 });
 
+
+
 const start = async () => {
   
   const predictions = document.getElementById('predictions');
@@ -281,6 +283,7 @@ const Landing = () => {
   if (stream) {
     UserVideo = (
       <VideoFrame
+        id = 'predictions'
         video={
           <video
             className="userVideo"
@@ -313,6 +316,7 @@ const Landing = () => {
     } else if (callAccepted && !isfullscreen) {
       PartnerVideo = (
         <VideoFrame
+          id = 'prediction1'
           video={
             <video
               className="partnerVideo"
@@ -321,7 +325,7 @@ const Landing = () => {
               className={`partnerVideo ${classes.video} `}
               autoPlay
             />
-          }
+        }
         />
       );
     }
@@ -508,6 +512,11 @@ const Landing = () => {
             window.location.reload();
           });
 
+          socket.current.on('prediction-recieved', data => {
+            const prediction1 = document.getElementById('prediction1');
+            prediction1.innerHTML = data;
+          })
+
           socket.current.on('rejected', () => {
             window.location.reload();
           });
@@ -524,6 +533,7 @@ const Landing = () => {
       return;
     }
   }
+
   // ------------------------------------------
   const [error, setError] = useState('');
   const { currentUser, logout } = useAuth();
@@ -550,6 +560,14 @@ const Landing = () => {
     const data = await response.json();
     console.log('data', data);
   }
+
+  function changePrediction() {
+    const predictions = document.getElementById('predictions');
+    const text = predictions.innerHTML;
+    //console.log(text);
+    socket.emit('send-prediction', text)
+  }
+
   // -------------------------------------------------
   let landingHTML = (
     <>
@@ -672,6 +690,7 @@ const Landing = () => {
         </div>
       </div>
       </div>
+      <button onClick={changePrediction} id="change-prediction"></button>
 
 
     </>

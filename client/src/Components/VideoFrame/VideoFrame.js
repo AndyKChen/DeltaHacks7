@@ -2,7 +2,7 @@ import Fab from '@material-ui/core/Fab';
 import React from 'react';
 import useStyles from './VideoFrame-jss';
 
-const VideoFrame = ({ video }) => {
+const VideoFrame = ({ video, id }) => {
   const classes = useStyles();
   let videoElem = <video autoPlay playsInline muted id="webcam" className={classes.video}></video>;
   if (video) {
@@ -22,7 +22,7 @@ const VideoFrame = ({ video }) => {
           <div>
             <div className={classes.name}>James Cahyadi</div>
             <div className={classes.prediction}>
-              Prediction (<span id="confidence"></span>%): <span id="predictions"></span>
+              Prediction (<span id="confidence"></span>%): <span id={id}></span>
               <button hidden id="change-prediction"></button>
             </div>
           </div>
