@@ -25,98 +25,16 @@ import useStyles from './Landing-jss';
 // --------------------------------------------------
 var identity = 0;
 var classes = [];
+
 const ringtoneSound = new Howl({
   src: [ringtone],
   loop: true,
   preload: true,
 });
 
-const start = async () => {
-  const predictions = document.getElementById('predictions');
-  const confidence = document.getElementById('confidence');
-
-  const createKNNClassifier = async () => {
-    console.log('Loading KNN Classifier');
-    return await window.knnClassifier.create();
-  };
-  const createMobileNetModel = async () => {
-    console.log('Loading Mobilenet Model');
-    return await window.mobilenet.load();
-  };
-  const createWebcamInput = async () => {
-    console.log('Loading Webcam Input');
-    const webcamElement = await document.getElementById('webcam');
-    return await window.tf.data.webcam(webcamElement);
-  };
-
-  const mobilenetModel = await createMobileNetModel();
-  const knnClassifierModel = await createKNNClassifier();
-  const webcamInput = await createWebcamInput();
-
-  const uploadModel = async (classifierModel, event) => {
-    let inputModel = event.target.files;
-    console.log('Uploading');
-    let fr = new FileReader();
-    if (inputModel.length > 0) {
-      fr.onload = async () => {
-        var dataset = fr.result;
-        var tensorObj = JSON.parse(dataset);
-
-        Object.keys(tensorObj).forEach((key) => {
-          tensorObj[key] = window.tf.tensor(tensorObj[key], [tensorObj[key].length / 1024, 1024]);
-        });
-        classifierModel.setClassifierDataset(tensorObj);
-        console.log('Classifier has been set up! Congrats! ');
-      };
-    }
-    await fr.readAsText(inputModel[0]);
-    console.log('Uploaded');
-  };
-
-  const initializeElements = () => {
-    document
-      .getElementById('load_button')
-      .addEventListener('change', (event) => uploadModel(knnClassifierModel, event));
-  };
-
-  const imageClassificationWithTransferLearningOnWebcam = async () => {
-    console.log('Machine Learning on the web is ready');
-    while (true) {
-      if (knnClassifierModel.getNumClasses() > 0) {
-        const img = await webcamInput.capture();
-
-        // Get the activation from mobilenet from the webcam.
-        const activation = mobilenetModel.infer(img, 'conv_preds');
-        // Get the most likely class and confidences from the classifier module.
-        const result = await knnClassifierModel.predictClass(activation);
-
-        //console.log(classes[result.label - 1].name)
-        try {
-          predictions.innerHTML = classes[result.label - 1].name;
-          confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
-        } catch (err) {
-          predictions.innerHTML = result.label - 1;
-          confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
-        }
-        document.getElementById('change-prediction').click();
-        // Dispose the tensor to release the memory.
-        img.dispose();
-      }
-      await window.tf.nextFrame();
-    }
-  };
-
-  await initializeElements();
-  console.log(knnClassifierModel);
-
-  await imageClassificationWithTransferLearningOnWebcam();
-};
-
-window.onload = async () => {
-  await start();
-};
-
 const Landing = () => {
+  const [predictionText, setPredictionText] = useState('');
+
   const [yourID, setYourID] = useState('');
   const [users, setUsers] = useState({});
   const [stream, setStream] = useState();
@@ -278,6 +196,7 @@ const Landing = () => {
     UserVideo = (
       <VideoFrame
         id="predictionsUser"
+        prediction={predictionText}
         video={
           <video
             className="userVideo"
@@ -508,7 +427,7 @@ const Landing = () => {
           });
 
           socket.current.on('prediction-recieved', (data) => {
-            console.log(data);
+            console.log(data, receivingCall);
             setPrediction1Text(data);
           });
 
@@ -622,6 +541,99 @@ const Landing = () => {
       <Footer />
     </>
   );
+
+  const start = async () => {
+    const predictions = document.getElementById('predictions');
+    const confidence = document.getElementById('confidence');
+
+    const createKNNClassifier = async () => {
+      console.log('Loading KNN Classifier');
+      return await window.knnClassifier.create();
+    };
+    const createMobileNetModel = async () => {
+      console.log('Loading Mobilenet Model');
+      return await window.mobilenet.load();
+    };
+    const createWebcamInput = async () => {
+      console.log('Loading Webcam Input');
+      const webcamElement = await document.getElementById('webcam');
+      return await window.tf.data.webcam(webcamElement);
+    };
+
+    const mobilenetModel = await createMobileNetModel();
+    const knnClassifierModel = await createKNNClassifier();
+    const webcamInput = await createWebcamInput();
+
+    const uploadModel = async (classifierModel, event) => {
+      let inputModel = event.target.files;
+      console.log('Uploading');
+      let fr = new FileReader();
+      if (inputModel.length > 0) {
+        fr.onload = async () => {
+          var dataset = fr.result;
+          var tensorObj = JSON.parse(dataset);
+
+          Object.keys(tensorObj).forEach((key) => {
+            tensorObj[key] = window.tf.tensor(tensorObj[key], [tensorObj[key].length / 1024, 1024]);
+          });
+          classifierModel.setClassifierDataset(tensorObj);
+          console.log('Classifier has been set up! Congrats! ');
+        };
+      }
+      await fr.readAsText(inputModel[0]);
+      console.log('Uploaded');
+    };
+
+    const initializeElements = () => {
+      document
+        .getElementById('load_button')
+        .addEventListener('change', (event) => uploadModel(knnClassifierModel, event));
+    };
+
+    const imageClassificationWithTransferLearningOnWebcam = async () => {
+      console.log('Machine Learning on the web is ready');
+      while (true) {
+        if (knnClassifierModel.getNumClasses() > 0) {
+          const img = await webcamInput.capture();
+
+          // Get the activation from mobilenet from the webcam.
+          const activation = mobilenetModel.infer(img, 'conv_preds');
+          // Get the most likely class and confidences from the classifier module.
+          const result = await knnClassifierModel.predictClass(activation);
+
+          //console.log(classes[result.label - 1].name)
+          let text = '';
+          try {
+            predictions.innerHTML = classes[result.label - 1].name;
+            text = classes[result.label - 1].name;
+            confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
+          } catch (err) {
+            predictions.innerHTML = result.label - 1;
+            text = result.label - 1;
+            confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
+          }
+          if (text !== predictionText) {
+            setPredictionText(text);
+          }
+
+          document.getElementById('change-prediction').click();
+          // Dispose the tensor to release the memory.
+          img.dispose();
+        }
+        await window.tf.nextFrame();
+      }
+    };
+
+    await initializeElements();
+    console.log(knnClassifierModel);
+
+    await imageClassificationWithTransferLearningOnWebcam();
+  };
+
+  window.onload = async () => {
+    await start();
+  };
+
   return (
     <>
       <div style={{ display: renderLanding() }}>
@@ -668,7 +680,8 @@ const Landing = () => {
           <div className="mycam">
             <video hidden autoPlay playsInline muted id="webcam" className="cam"></video>
             <div className="grey-bg">
-              <div>{prediction1Text}</div>
+              <div> prediction1 {prediction1Text}</div>
+              <div> predictionsUser {predictionText}</div>
 
               <div className="row text-center">
                 <h3>
@@ -677,9 +690,7 @@ const Landing = () => {
                 <h3>
                   Probability : <span id="confidence"></span> %
                 </h3>
-                <button onClick={changePrediction} id="change-prediction">
-                  change predict
-                </button>
+                <button hidden onClick={changePrediction} id="change-prediction"></button>
               </div>
             </div>
           </div>

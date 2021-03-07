@@ -112,9 +112,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-prediction", (data) => {
-    console.log("sendding predcitions", data);
-    // socket.broadcast.emit("prediction-recieved", data);
-    io.to(users[data.userToCall]).emit("prediction-recieved", data);
+    // console.log("sendding predcitions", data);
+    socket.broadcast.emit("prediction-recieved", data);
+    // io.to(users[data.userToCall]).emit("prediction-recieved", data);
   });
 });
 
