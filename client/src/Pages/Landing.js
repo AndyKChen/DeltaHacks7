@@ -491,7 +491,7 @@ const Landing = () => {
         </div>
       </div>
       {error && <Alert severity="error">{error}</Alert>}
-      <strong>Email:</strong> 
+      <strong>Email:</strong>  {currentUser && currentUser.email}
       <div>
         <Button onClick = {handleLogout}>Log Out</Button>
       </div>

@@ -80,12 +80,7 @@ export default function Login() {
                     Log In
                   </Button>
                   <Grid container className={classes.links}>
-                    <Grid item xs={6}>
-                      <Link variant="body2" to="/forgot-password">
-                        Forgot password?
-                      </Link>
-                    </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                       <Link to="/signup">
                         {"This is the link to sign up"}
                       </Link>
