@@ -16,6 +16,12 @@ import minimize from '../Icons/minimize.svg';
 import ringtone from '../Sounds/ringtone.mp3';
 import share from '../Icons/share.svg';
 
+// --------------------------------------------------
+import { Button } from '@material-ui/core';
+import { Alert } from "@material-ui/lab"
+import { useAuth } from '../Contexts/AuthContext'
+import { useHistory } from 'react-router';
+
 const ringtoneSound = new Howl({
   src: [ringtone],
   loop: true,
@@ -390,7 +396,21 @@ const Landing = () => {
       return;
     }
   }
+  // ------------------------------------------
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+  async function handleLogout() {
+    setError('')
+    try {
+      await logout()
+      history.push('/login')
+    } catch {
+      setError('Failed to log out')
+    }
 
+  }
+  // -------------------------------------------------
   let landingHTML = (
     <>
       <Navigation />
@@ -469,6 +489,11 @@ const Landing = () => {
           {fullscreenButton}
           {hangUp}
         </div>
+      </div>
+      {error && <Alert severity="error">{error}</Alert>}
+      <strong>Email:</strong> 
+      <div>
+        <Button onClick = {handleLogout}>Log Out</Button>
       </div>
     </>
   );

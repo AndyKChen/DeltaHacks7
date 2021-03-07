@@ -12,9 +12,9 @@ import mainTheme from "./theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
     <ThemeProvider theme={mainTheme}>
       <Router>
+        <CssBaseline />
         <App />
       </Router>
     </ThemeProvider>
