@@ -25,7 +25,7 @@ async function handleSubmit(e) {
   try{
     setError("");
     setLoading(true);
-    if (password !== passwordCheck){throw 'Passwords do not match!';}
+    if (password !== passwordCheck){throw error;}
     await signup(email, password);
     // <Alert severity="success">Account successfully created</Alert>
     history.push("/login")
@@ -93,12 +93,7 @@ return (
                 Create Account
               </Button>
               <Grid container className={classes.links}>
-                <Grid item xs={6}>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <Link to="/login" >
                     Already have an account?
                   </Link>
