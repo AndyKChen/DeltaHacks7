@@ -660,22 +660,10 @@ const Landing = () => {
         <div className="column flex-2-container">
           <div>
           <div className="model">
-              <button className="dark btn-lg btn-shadow " id="save_button">Download Model 
-              <i className="fas fa-download"></i>
-              </button>
               <input id="load_button" className="fileinputs" type="file" accept=".json"></input>
                 <label htmlFor="upload-photo">Browse...</label> 
 
             </div>
-            <div className="add-class text-center">
-
-
-              <input id="inputClassName" type="text" placeholder="Enter Class Name Here" name="option" />
-              <button className="dark btn-lg btn-shadow mr-5" id="add-button">Add 
-              <i className="fas  fa-plus fa-1x"></i>
-              </button>
-
-              </div>
 
               <div id="training-cards">
 
