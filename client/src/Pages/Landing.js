@@ -94,11 +94,11 @@ const start = async () => {
         try {
           predictions.innerHTML = classes[result.label - 1].name;
           confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
-          document.getElementById('change-prediction').click();
         } catch (err) {
           predictions.innerHTML = result.label - 1;
           confidence.innerHTML = Math.floor(result.confidences[result.label] * 100);
         }
+        document.getElementById('change-prediction').click();
         // Dispose the tensor to release the memory.
         img.dispose();
       }
@@ -107,6 +107,8 @@ const start = async () => {
   };
 
   await initializeElements();
+  console.log(knnClassifierModel);
+
   await imageClassificationWithTransferLearningOnWebcam();
 };
 
@@ -131,6 +133,7 @@ const Landing = () => {
   const [videoMuted, setVideoMuted] = useState(false);
   const [isfullscreen, setFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [prediction1Text, setPrediction1Text] = useState('');
 
   const userVideo = useRef();
   const partnerVideo = useRef();
@@ -274,7 +277,7 @@ const Landing = () => {
   if (stream) {
     UserVideo = (
       <VideoFrame
-        id="predictions"
+        id="predictionsUser"
         video={
           <video
             className="userVideo"
@@ -308,6 +311,7 @@ const Landing = () => {
       PartnerVideo = (
         <VideoFrame
           id="prediction1"
+          prediction={prediction1Text}
           video={
             <video
               className="partnerVideo"
@@ -504,8 +508,8 @@ const Landing = () => {
           });
 
           socket.current.on('prediction-recieved', (data) => {
-            const prediction1 = document.getElementById('prediction1');
-            prediction1.innerHTML = data;
+            console.log(data);
+            setPrediction1Text(data);
           });
 
           socket.current.on('rejected', () => {
@@ -553,10 +557,11 @@ const Landing = () => {
   }
 
   function changePrediction() {
+    socket.current = io.connect('/');
     const predictions = document.getElementById('predictions');
     const text = predictions.innerHTML;
-    //console.log(text);
-    socket.emit('send-prediction', text);
+    console.log(text);
+    socket.current.emit('send-prediction', text);
   }
 
   // -------------------------------------------------
@@ -663,6 +668,8 @@ const Landing = () => {
           <div className="mycam">
             <video hidden autoPlay playsInline muted id="webcam" className="cam"></video>
             <div className="grey-bg">
+              <div>{prediction1Text}</div>
+
               <div className="row text-center">
                 <h3>
                   Prediction: <span id="predictions"></span>
@@ -670,7 +677,9 @@ const Landing = () => {
                 <h3>
                   Probability : <span id="confidence"></span> %
                 </h3>
-                <button hidden id="change-prediction"></button>
+                <button onClick={changePrediction} id="change-prediction">
+                  change predict
+                </button>
               </div>
             </div>
           </div>
@@ -686,7 +695,6 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <button onClick={changePrediction} id="change-prediction"></button>
     </>
   );
 };

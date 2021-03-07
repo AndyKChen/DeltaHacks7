@@ -111,9 +111,11 @@ io.on("connection", (socket) => {
     io.to(users[data.to]).emit("rejected");
   });
 
-  socket.on('send-prediction', (data) => {
-    io.to(users[data.userToCall]).emit('prediction-recieved', data)
-  })
+  socket.on("send-prediction", (data) => {
+    console.log("sendding predcitions", data);
+    // socket.broadcast.emit("prediction-recieved", data);
+    io.to(users[data.userToCall]).emit("prediction-recieved", data);
+  });
 });
 
 const port = process.env.PORT || 8000;
